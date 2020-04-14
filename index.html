@@ -1,109 +1,164 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<!-- 必要参数 -->
-<meta charset="utf-8"/>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
 <title>What_Damon</title>
-<meta name="keywords" content="关键词"/>
-<meta name="description" content="简述"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable:no"/>
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<link rel="shortcut icon" href="favicon.ico">
-<!-- CSS -->
-<link rel="stylesheet" href="https://whatdamon.github.io/media/css/mdui.min.css">
-<link rel="stylesheet" href="https://whatdamon.github.io/media/css/modify.css">
-</head>
-<body id="index" class="mdui-appbar-with-toolbar mdui-theme-primary-blue-grey mdui-theme-accent-blue mdui-theme-layout-dark">
-<header role="banner">
-    <div class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide mdui-shadow-0">
-        <div class="mdui-toolbar">
-            <button class="mdui-btn mdui-btn-icon" id="menu" mdui-drawer="{target:'#drawer',overlay:true,swipe:true}"><i class="mdui-icon material-icons">menu</i></button>
-            <a href="https://whatdamon.github.io" class="mdui-typo-headline">What_Damon</a>
-            <div class="mdui-toolbar-spacer"></div>
-            <button class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '深色样式切换', position: 'left'}" id="DarkStyle"><i class="mdui-icon material-icons">brightness_4</i></button>
-        </div>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://whatdamon.github.io/favicon.ico?v=1586879110911">
+<link rel="stylesheet" href="https://whatdamon.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="B站不知名咕咕咕UP主的博客">
+    
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://whatdamon.github.io">
+        <img src="https://whatdamon.github.io/images/avatar.png?v=1586879110911" class="site-logo">
+        <h1 class="site-title">What_Damon</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
     </div>
-</header>
-
-<nav id="drawer" class="mdui-drawer mdui-drawer-full-height mdui-drawer-close">
-    <ul class="mdui-list">
-        <a href="/" class="menu"><li class="mdui-list-item mdui-ripple">首页</li></a>
-        <a href="/archives" class="menu"><li class="mdui-list-item mdui-ripple">归档</li></a>
-        <a href="/tags" class="menu"><li class="mdui-list-item mdui-ripple">标签</li></a>
-        <a href="/about" class="menu"><li class="mdui-list-item mdui-ripple">关于</li></a>
-        <a href="/downloads" class="menu"><li class="mdui-list-item mdui-ripple">下载</li></a>
+    <div>
+      
         
-        <a href="https://github.com/CPlayer-CN/gridea-theme-cplayer-material" class="spread"><li class="mdui-list-item mdui-ripple">主题主页</li></a>
-    </ul>
-</nav>
-
-
-<main class="mdui-m-a-2 mdui-row-xs-1 mdui-row-sm-2 mdui-row-md-3 mdui-row-xl-4 mdui-typo mdui-m-t-2">
-    
-    <section class="mdui-col mdui-m-b-2">
-        <div class="mdui-card">
-            
-            <div class="mdui-card-primary">
-                <div class="mdui-card-primary-title"><a href="https://whatdamon.github.io/welcome/">欢迎！！！！</a></div>
-                <div class="mdui-card-primary-subtitle">2020-04-14</div>
-            </div>
-            <div class="mdui-card-content">这里是What_Damon的Blog博客哟~~~~
-肥肠欢迎来到我滴博客😜
-请尽情滴康呀😉
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="/downloads" class="site-nav">
+            下载
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      B站不知名咕咕咕UP主的博客
+    </div>
+    <div class="site-footer">
+      What_Damon Blog | <a class="rss" href="https://whatdamon.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
 </div>
-        </div>
-    </section>
 
-    <section class="mdui-col mdui-m-b-2">
-        <div class="mdui-card">
-            
-            <div class="mdui-card-media">
-                <img src="https://whatdamon.github.io/post-images/sxlblogxiaxian.jpg" onerror="this.src='https://whatdamon.github.io/post-images/sxlblogxiaxian.jpg';">
-                
-            </div>
-            
-            <div class="mdui-card-primary">
-                <div class="mdui-card-primary-title"><a href="https://whatdamon.github.io/sxlblogxiaxian/">即将关闭我的上线了博客</a></div>
-                <div class="mdui-card-primary-subtitle">2020-04-14</div>
-            </div>
-            <div class="mdui-card-content">由于上线了二级域名限制，部分改动审核不会通过，加上我只是一个没钱的学生党，没钱买上线了支持的域名
-我已经搬到这里了
-我将会在2020年5月1日-8月1日内随缘进行网站下线
-当然现在还能再去看看这个即将下线的博客
-链接：damon233.my...</div>
-        </div>
-    </section>
 
-</main>
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://whatdamon.github.io/welcome/">
+                  <h2 class="post-title">欢迎！！！！</h2>
+                </a>
+                <div class="post-date">
+                  2020-04-14
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://whatdamon.github.io/sxlblogxiaxian/">
+                  <h2 class="post-title">即将关闭我的上线了博客</h2>
+                </a>
+                <div class="post-date">
+                  2020-04-14
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+                <a class="right" href="https://whatdamon.github.io/sxlblogxiaxian/">
+                  <div class="feature-container" style="background-image: url('https://whatdamon.github.io/post-images/sxlblogxiaxian.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
 
-<nav class="mdui-container mdui-m-t-2 mdui-m-b-2">
-    
-    
-</nav>
-
-<div class="mdui-m-t-2 mdui-text-center mdui-typo">
-    What_Damon Blog
+          <div class="pagination-container">
+  
+  
 </div>
 
-<script src="https://whatdamon.github.io/media/js/jquery.min.js"></script>
-<script src="https://whatdamon.github.io/media/js/mdui.min.js"></script>
-<script src="https://whatdamon.github.io/media/js/modify.js"></script>
-<script src="https://whatdamon.github.io/media/js/masonry.pkgd.min.js"></script>
-<script src="https://whatdamon.github.io/media/js/imagesloaded.pkgd.min.js"></script>
-<script>
-// 初始化-文章列表页面瀑布流。
-function masonry() {
-    // 初始化 masonry
-    $('.mdui-row-xs-1').masonry({
-        itemSelector: '.mdui-col',
-        horizontalOrder: true
-    });
-}
-masonry()
-$('.mdui-col').imagesLoaded( function() {
-    masonry()
-});
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
 </script>
 
-</body>
+
+
+
+
+
+  </body>
 </html>
