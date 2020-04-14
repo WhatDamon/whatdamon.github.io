@@ -1,142 +1,88 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" >
-
+<html lang="zh-CN">
+<head>
+<!-- 必要参数 -->
+<meta charset="utf-8"/>
 <title>下载 | What_Damon</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://whatdamon.github.io/favicon.ico?v=1586877615376">
-<link rel="stylesheet" href="https://whatdamon.github.io/styles/main.css">
-
-
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-
-
-    <meta name="description" content="咦？
-我还没搞好呢！！！！！！
-🙃
-" />
-    <meta name="keywords" content="" />
-  </head>
-  <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://whatdamon.github.io">
-        <img src="https://whatdamon.github.io/images/avatar.png?v=1586877615376" class="site-logo">
-        <h1 class="site-title">What_Damon</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
+<meta name="keywords" content="关键词"/>
+<meta name="description" content="简述"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable:no"/>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<link rel="shortcut icon" href="favicon.ico">
+<!-- CSS -->
+<link rel="stylesheet" href="https://whatdamon.github.io/media/css/mdui.min.css">
+<link rel="stylesheet" href="https://whatdamon.github.io/media/css/modify.css">
+<link rel="stylesheet" href="https://whatdamon.github.io/media/css/github-gist.min.css">
+<link rel="stylesheet" href="https://whatdamon.github.io/media/css/railscasts.min.css">
+</head>
+<body id="post" class="mdui-appbar-with-toolbar mdui-theme-primary-blue-grey mdui-theme-accent-blue mdui-theme-layout-dark">
+<header role="banner">
+    <div class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide mdui-shadow-0">
+        <div class="mdui-toolbar">
+            <button class="mdui-btn mdui-btn-icon" id="menu" mdui-drawer="{target:'#drawer',overlay:true,swipe:true}"><i class="mdui-icon material-icons">menu</i></button>
+            <a href="https://whatdamon.github.io" class="mdui-typo-headline">What_Damon</a>
+            <div class="mdui-toolbar-spacer"></div>
+            <button class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '深色样式切换', position: 'left'}" id="DarkStyle"><i class="mdui-icon material-icons">brightness_4</i></button>
+        </div>
     </div>
-    <div>
-      
+</header>
+
+<nav id="drawer" class="mdui-drawer mdui-drawer-full-height mdui-drawer-close">
+    <ul class="mdui-list">
+        <a href="/" class="menu"><li class="mdui-list-item mdui-ripple">首页</li></a>
+        <a href="/archives" class="menu"><li class="mdui-list-item mdui-ripple">归档</li></a>
+        <a href="/tags" class="menu"><li class="mdui-list-item mdui-ripple">标签</li></a>
+        <a href="/about" class="menu"><li class="mdui-list-item mdui-ripple">关于</li></a>
+        <a href="/downloads" class="menu"><li class="mdui-list-item mdui-ripple">下载</li></a>
         
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
-      
-        
-          <a href="/about" class="site-nav">
-            关于
-          </a>
-        
-      
-        
-          <a href="/downloads" class="site-nav">
-            下载
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      B站不知名咕咕咕UP主的博客
-    </div>
-    <div class="site-footer">
-      What_Damon Blog | <a class="rss" href="https://whatdamon.github.io/atom.xml" target="_blank">RSS</a>
-    </div>
-  </div>
-</div>
+        <a href="https://github.com/CPlayer-CN/gridea-theme-cplayer-material" class="spread"><li class="mdui-list-item mdui-ripple">主题主页</li></a>
+    </ul>
+</nav>
 
 
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">下载</h2>
-            <div class="post-date">2020-04-14</div>
-            
-            <div class="post-content" v-pre>
-              <p>咦？<br>
+<main class="mdui-container mdui-typo mdui-m-t-2">
+    <section class="mdui-card">
+        
+        <div class="mdui-card-primary">
+            <div class="mdui-card-primary-title">下载</div>
+            <div class="mdui-card-primary-subtitle">发布于 2020-04-14，包含标签 。</div>
+        </div>
+        <div class="mdui-card-content"><p>咦？<br>
 我还没搞好呢！！！！！！<br>
 🙃</p>
-
-            </div>
-            
-            
-
-            
-
-          </div>
-
+</div>
+        <div class="mdui-card-header">
+            <img class="mdui-card-header-avatar" src="https://whatdamon.github.io/images/avatar.png">
+            <div class="mdui-card-header-title">What_Damon</div>
+            <div class="mdui-card-header-subtitle">B站不知名咕咕咕UP主的博客</div>
         </div>
-      </div>
-    </div>
+    </section>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script type="application/javascript">
+      
+</main>
 
-AOS.init();
+<nav class="mdui-container mdui-m-t-2 mdui-m-b-2">
+    
+    
+</nav>
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+<div class="mdui-m-t-2 mdui-text-center mdui-typo">
+    What_Damon Blog
+</div>
 
+<script src="https://whatdamon.github.io/media/js/jquery.min.js"></script>
+<script src="https://whatdamon.github.io/media/js/mdui.min.js"></script>
+<script src="https://whatdamon.github.io/media/js/modify.js"></script>
+<script src="https://whatdamon.github.io/media/js/highlight.min.js"></script>
+<script src="https://whatdamon.github.io/media/js/lightense.min.js"></script>
+<script>
+// 初始化-高亮代码
+hljs.initHighlightingOnLoad();
+// 初始化-文章图片放大
+window.addEventListener('load', function () {
+    Lightense('#post .mdui-card-content img');
+}, false);
 </script>
 
-
-
-
-
-
-  </body>
+</body>
 </html>
