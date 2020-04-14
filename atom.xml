@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://whatdamon.github.io</id>
-    <title>Gridea</title>
-    <updated>2020-04-14T12:16:15.123Z</updated>
+    <title>What_Damon</title>
+    <updated>2020-04-14T12:20:46.761Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://whatdamon.github.io"/>
     <link rel="self" href="https://whatdamon.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>B站不知名咕咕咕UP主的博客</subtitle>
     <logo>https://whatdamon.github.io/images/avatar.png</logo>
     <icon>https://whatdamon.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Gridea</rights>
+    <rights>All rights reserved 2020, What_Damon</rights>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://whatdamon.github.io/post/hello-gridea/</id>
-        <link href="https://whatdamon.github.io/post/hello-gridea/">
+        <id>https://whatdamon.github.io/hello-gridea/</id>
+        <link href="https://whatdamon.github.io/hello-gridea/">
         </link>
         <updated>2018-12-11T16:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
