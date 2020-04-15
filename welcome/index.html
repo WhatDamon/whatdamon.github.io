@@ -1,92 +1,205 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<html>
+
 <head>
-<!-- 必要参数 -->
-<meta charset="utf-8"/>
-<title>欢迎！！！！ | What_Damon</title>
-<meta name="keywords" content="关键词"/>
-<meta name="description" content="简述"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable:no"/>
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<link rel="shortcut icon" href="favicon.ico">
-<!-- CSS -->
-<link rel="stylesheet" href="https://whatdamon.github.io/media/css/mdui.min.css">
-<link rel="stylesheet" href="https://whatdamon.github.io/media/css/modify.css">
-<link rel="stylesheet" href="https://whatdamon.github.io/media/css/github-gist.min.css">
-<link rel="stylesheet" href="https://whatdamon.github.io/media/css/railscasts.min.css">
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>
+    欢迎！！！！ | What_Damon
+</title>
+<link rel="shortcut icon" href="https://whatdamon.github.io/favicon.ico?v=1586943533974">
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://whatdamon.github.io/styles/main.css">
+<!-- js -->
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://whatdamon.github.io/media/js/jquery.sticky-sidebar.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+        
 </head>
-<body id="post" class="mdui-appbar-with-toolbar mdui-theme-primary-blue-grey mdui-theme-accent-blue mdui-theme-layout-dark">
-<header role="banner">
-    <div class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide mdui-shadow-0">
-        <div class="mdui-toolbar">
-            <button class="mdui-btn mdui-btn-icon" id="menu" mdui-drawer="{target:'#drawer',overlay:true,swipe:true}"><i class="mdui-icon material-icons">menu</i></button>
-            <a href="https://whatdamon.github.io" class="mdui-typo-headline">What_Damon</a>
-            <div class="mdui-toolbar-spacer"></div>
-            <button class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '深色样式切换', position: 'left'}" id="DarkStyle"><i class="mdui-icon material-icons">brightness_4</i></button>
+
+<body>
+    <div class="main">
+        <div class="header">
+    <div class="nav">
+        <div class="logo">
+            <a href="https://whatdamon.github.io">
+                <img class="avatar" src="https://whatdamon.github.io/images/avatar.png?v=1586943533974" alt="">
+            </a>
+            <div class="site-title">
+                <h1>
+                    What_Damon
+                </h1>
+            </div>
+        </div>
+        <span class="menu-btn fa fa-align-justify"></span>
+        <div class="menu-container">
+            <ul>
+                
+                    
+                            <li>
+                                <a href="/" class="menu">
+                                    首页
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/archives" class="menu">
+                                    文章
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/tags" class="menu">
+                                    标签
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/about" class="menu">
+                                    关于
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/downloads" class="menu">
+                                    下载
+                                </a>
+                            </li>
+                            
+                                
+            </ul>
         </div>
     </div>
-</header>
-
-<nav id="drawer" class="mdui-drawer mdui-drawer-full-height mdui-drawer-close">
-    <ul class="mdui-list">
-        <a href="/" class="menu"><li class="mdui-list-item mdui-ripple">首页</li></a>
-        <a href="/archives" class="menu"><li class="mdui-list-item mdui-ripple">文章</li></a>
-        <a href="/tags" class="menu"><li class="mdui-list-item mdui-ripple">标签</li></a>
-        <a href="/about" class="menu"><li class="mdui-list-item mdui-ripple">关于</li></a>
-        <a href="/downloads" class="menu"><li class="mdui-list-item mdui-ripple">下载</li></a>
-        
-        <a href="https://github.com/CPlayer-CN/gridea-theme-cplayer-material" class="spread"><li class="mdui-list-item mdui-ripple">主题主页</li></a>
-    </ul>
-</nav>
-
-
-<main class="mdui-container mdui-typo mdui-m-t-2">
-    <section class="mdui-card">
-        
-        <div class="mdui-card-media">
-            <img src="https://whatdamon.github.io/post-images/welcome.png">
-        </div>
-        
-        <div class="mdui-card-primary">
-            <div class="mdui-card-primary-title">欢迎！！！！</div>
-            <div class="mdui-card-primary-subtitle">发布于 2020-04-14，包含标签 。</div>
-        </div>
-        <div class="mdui-card-content"><h2 id="这里是what_damon的blog博客哟~~~~">这里是What_Damon的Blog博客哟~~~~</h2>
-<p>肥肠欢迎来到我滴博客😜<br>
-请尽情滴康呀😉</p>
-</div>
-        <div class="mdui-card-header">
-            <img class="mdui-card-header-avatar" src="https://whatdamon.github.io/images/avatar.png">
-            <div class="mdui-card-header-title">What_Damon</div>
-            <div class="mdui-card-header-subtitle">B站不知名咕咕咕UP主的博客</div>
-        </div>
-    </section>
-
-      
-</main>
-
-<nav class="mdui-container mdui-m-t-2 mdui-m-b-2">
-    <a href="https://whatdamon.github.io/sxlblogxiaxian/" mdui-tooltip="{content: '上一篇', position: 'right'}"><button class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme-accent mdui-ripple mdui-m-r-1"><i class="mdui-icon material-icons">arrow_back</i></button>即将关闭我的上线了博客</a>
-    
-</nav>
-
-<div class="mdui-m-t-2 mdui-text-center mdui-typo">
-    What_Damon Blog
 </div>
 
-<script src="https://whatdamon.github.io/media/js/jquery.min.js"></script>
-<script src="https://whatdamon.github.io/media/js/mdui.min.js"></script>
-<script src="https://whatdamon.github.io/media/js/modify.js"></script>
-<script src="https://whatdamon.github.io/media/js/highlight.min.js"></script>
-<script src="https://whatdamon.github.io/media/js/lightense.min.js"></script>
 <script>
-// 初始化-高亮代码
-hljs.initHighlightingOnLoad();
-// 初始化-文章图片放大
-window.addEventListener('load', function () {
-    Lightense('#post .mdui-card-content img');
-}, false);
+    $(document).ready(function() {
+        $(".menu-btn").click(function() {
+            $(".menu-container").slideToggle();
+        });
+        $(window).resize(function() {
+
+            if (window.matchMedia('(min-width: 960px)').matches) {
+                $(".menu-container").css('display', 'block')
+            } else {
+                $(".menu-container").css('display', 'none')
+            }
+
+        });
+    });
 </script>
 
+            <div id="main-content" class="post-detail main-container">
+                <!-- left -->
+                <div id="content" class="main-container-left">
+                    <article class="post i-card">
+                        <h2 class="post-title">
+                            欢迎！！！！
+                        </h2>
+                        <div class="post-info">
+                            <time class="post-time">2020-04-14</time>
+                            
+                        </div>
+                        
+                            <div class="post-feature-image" style="background-image: url('https://whatdamon.github.io/post-images/welcome.png')"></div>
+                            
+                                <div class="post-content">
+                                    <h2 id="这里是what_damon的blog博客哟~~~~">这里是What_Damon的Blog博客哟~~~~</h2>
+<p>肥肠欢迎来到我滴博客😜<br>
+请尽情滴康呀😉</p>
+
+                                </div>
+                    </article>
+                    <!--  -->
+                    
+                            <div id="disqus_thread"></div>
+                            <div id="gitalk-container"></div>
+                </div>
+                <!-- middle -->
+                <div class="main-container-middle"></div>
+                <!-- right -->
+                <div id="sidebar" class="main-container-right">
+                    
+                        <!-- toc -->
+                        
+    <div class="toc-card i-card ">
+        <div class="toc-title i-card-title">目录</div>
+        <div class="toc-content">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E8%BF%99%E9%87%8C%E6%98%AFwhat_damon%E7%9A%84blog%E5%8D%9A%E5%AE%A2%E5%93%9F~~~~">这里是What_Damon的Blog博客哟~~~~</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+        <script>
+            function locateCatelogList() {
+                /*获取文章目录集合,可通过:header过滤器*/
+                var alis = $('.post-content :header');
+                /*获取侧边栏目录列表集合**/
+                var sidebar_alis = $('.markdownIt-TOC a');
+                /*获取滚动条到顶部的距离*/
+                var scroll_height = $(window).scrollTop();
+                for (var i = 0; i < alis.length; i++) {
+                    /*获取锚点集合中的元素分别到顶点的距离*/
+                    var a_height = $(alis[i]).offset().top;
+                    if (a_height < scroll_height) {
+                        /*高亮显示*/
+                        sidebar_alis.removeClass('on');
+                        $(sidebar_alis[i]).addClass('on');
+                    }
+                }
+            }
+            $(function() {
+                /*绑定滚动事件 */
+                $(window).bind('scroll', locateCatelogList);
+            });
+        </script>
+    </div>
+    
+                            
+
+                </div>
+
+
+
+
+            </div>
+
+
+            <div class="site-footer">
+  What_Damon Blog | 
+  <a class="rss" href="https://whatdamon.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+
+    </div>
+    <script>
+        $('#sidebar').stickySidebar({
+            topSpacing: 80,
+            // bottomSpacing: 60
+        });
+    </script>
+    
 </body>
+
 </html>
