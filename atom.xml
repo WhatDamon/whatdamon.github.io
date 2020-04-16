@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://whatdamon.github.io</id>
     <title>What_Damon</title>
-    <updated>2020-04-15T15:29:44.218Z</updated>
+    <updated>2020-04-16T06:47:43.638Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://whatdamon.github.io"/>
     <link rel="self" href="https://whatdamon.github.io/atom.xml"/>
@@ -10,6 +10,57 @@
     <logo>https://whatdamon.github.io/images/avatar.png</logo>
     <icon>https://whatdamon.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, What_Damon</rights>
+    <entry>
+        <title type="html"><![CDATA[关于PanDownload事件]]></title>
+        <id>https://whatdamon.github.io/aboutpandownloadgb/</id>
+        <link href="https://whatdamon.github.io/aboutpandownloadgb/">
+        </link>
+        <updated>2020-04-16T05:31:19.000Z</updated>
+        <summary type="html"><![CDATA[<h1 id="主">主</h1>
+<p>这段时间，PanDownload开发者被捕，目前pandownload的所有网站<br>
+<a href="http://www.pandownload.com">http://www.pandownload.com</a><br>
+<a href="http://www.baiduwp.com">http://www.baiduwp.com</a><br>
+还有有一个安卓端网站<br>
+全部下线<br>
+PanDownload的确是一款优秀的软件，它给许多用户带来放便利，而PanDownload开发者被捕，软件停用，无疑是给用户重大的打击<br>
+具体为什么现在大家开始投靠百度网盘第三方客户端，最主要百度在对他们旗下的百度网盘缩水！<br>
+百度网盘首次上线时虽然只有几GB储存空间，但不限速，之后，百度大方的把网盘免费扩充至5TB，但好景不长，百度网盘开始缩水，首先是非超级会员开始限速，空间缩水到2TB,这还能再忍忍，但2018年，百度又对用户来了一个下马威：2019年如果从未登录过百度网盘，2020年就把空间缩水至100GB，牙膏吸得这么厉害，用户已经忍不了了，PanDownload一时间名气大涨<br>
+今天，PanDownload已经无法登录，源码也很难找到，百度网盘官方还大肆宣传自己的战绩</p>
+<h1 id="替代品">替代品</h1>
+<p>这里我再告诉大家接下来能用什么代替</p>
+<h2 id="1-bnd2baidu-netdisk-downloader-2">1. BND2(Baidu Netdisk Downloader 2)</h2>
+<p>这是除了PanDownload外我最喜欢的，当然，适合自己的才是最好的</p>
+<h2 id="2-proxyee-down">2. Proxyee-down</h2>
+<p>这个我还没有体验过但可以试试</p>
+<h2 id="3-速盘">3. 速盘</h2>
+<p>没好好用过，但速度应该挺快的</p>
+<h2 id="4-motrix">4. Motrix</h2>
+<p>速度一般吧，当然可以当普通的下载器使用</p>
+]]></summary>
+        <content type="html"><![CDATA[<h1 id="主">主</h1>
+<p>这段时间，PanDownload开发者被捕，目前pandownload的所有网站<br>
+<a href="http://www.pandownload.com">http://www.pandownload.com</a><br>
+<a href="http://www.baiduwp.com">http://www.baiduwp.com</a><br>
+还有有一个安卓端网站<br>
+全部下线<br>
+PanDownload的确是一款优秀的软件，它给许多用户带来放便利，而PanDownload开发者被捕，软件停用，无疑是给用户重大的打击<br>
+具体为什么现在大家开始投靠百度网盘第三方客户端，最主要百度在对他们旗下的百度网盘缩水！<br>
+百度网盘首次上线时虽然只有几GB储存空间，但不限速，之后，百度大方的把网盘免费扩充至5TB，但好景不长，百度网盘开始缩水，首先是非超级会员开始限速，空间缩水到2TB,这还能再忍忍，但2018年，百度又对用户来了一个下马威：2019年如果从未登录过百度网盘，2020年就把空间缩水至100GB，牙膏吸得这么厉害，用户已经忍不了了，PanDownload一时间名气大涨<br>
+今天，PanDownload已经无法登录，源码也很难找到，百度网盘官方还大肆宣传自己的战绩</p>
+<h1 id="替代品">替代品</h1>
+<p>这里我再告诉大家接下来能用什么代替</p>
+<h2 id="1-bnd2baidu-netdisk-downloader-2">1. BND2(Baidu Netdisk Downloader 2)</h2>
+<p>这是除了PanDownload外我最喜欢的，当然，适合自己的才是最好的</p>
+<h2 id="2-proxyee-down">2. Proxyee-down</h2>
+<p>这个我还没有体验过但可以试试</p>
+<h2 id="3-速盘">3. 速盘</h2>
+<p>没好好用过，但速度应该挺快的</p>
+<h2 id="4-motrix">4. Motrix</h2>
+<p>速度一般吧，当然可以当普通的下载器使用</p>
+<!-- more -->
+<p>我不提供官网链接，网上自己下哟😝</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[推荐两款优秀的系统清理软件]]></title>
         <id>https://whatdamon.github.io/cleanerapptj-1/</id>
