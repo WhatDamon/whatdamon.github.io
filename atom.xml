@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://whatdamon.github.io</id>
     <title>What_Damon</title>
-    <updated>2020-04-17T10:46:11.025Z</updated>
+    <updated>2020-04-17T11:13:44.777Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://whatdamon.github.io"/>
     <link rel="self" href="https://whatdamon.github.io/atom.xml"/>
@@ -16,43 +16,6 @@
         <link href="https://whatdamon.github.io/newplq/">
         </link>
         <updated>2020-04-17T09:25:47.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[不想花钱买新版Bandizip，试试这两款压缩软件]]></title>
-        <id>https://whatdamon.github.io/bxmbandizipshi2apptj-1/</id>
-        <link href="https://whatdamon.github.io/bxmbandizipshi2apptj-1/">
-        </link>
-        <updated>2020-04-17T05:37:03.000Z</updated>
-        <summary type="html"><![CDATA[<h1 id="1-peazip">1. Peazip</h1>
-<p>这款压缩软件我体验过一段时间，免费开源，非常清爽，另外，它非常配Windows 10的UI，外观的自定义型很强（但比WinRAR要弱一丢丢丢丢......丢丢丢丢丢丢丢）<br>
-先上张官网宣传图吧（不自己截是因为👴已经把它卸载啦）<br>
-<img src="https://whatdamon.github.io/post-images/1587102683619.png" alt="" loading="lazy"><br>
-诶？！英文？看不懂？这款软件是完全支持简体中文哒！因为这是一个国外的软件！<br>
-你要的 <a href="https://www.peazip.org/">官网</a><br>
-Yeah~~~</p>
-<h1 id="2-360-zip">2. 360 Zip</h1>
-<p>不是内个国内版的，是国际版的内个<br>
-功能和Bandizip一样，同样有压缩包语言（代码页），解决文件名称乱码<br>
-UI真的，贼好看（对于我的审美）<br>
-更重要的是，无捆绑无广告，大小才30MB左右<br>
-上图！<br>
-<img src="https://whatdamon.github.io/post-images/1587111989756.png" alt="" loading="lazy"></p>
-]]></summary>
-        <content type="html"><![CDATA[<h1 id="1-peazip">1. Peazip</h1>
-<p>这款压缩软件我体验过一段时间，免费开源，非常清爽，另外，它非常配Windows 10的UI，外观的自定义型很强（但比WinRAR要弱一丢丢丢丢......丢丢丢丢丢丢丢）<br>
-先上张官网宣传图吧（不自己截是因为👴已经把它卸载啦）<br>
-<img src="https://whatdamon.github.io/post-images/1587102683619.png" alt="" loading="lazy"><br>
-诶？！英文？看不懂？这款软件是完全支持简体中文哒！因为这是一个国外的软件！<br>
-你要的 <a href="https://www.peazip.org/">官网</a><br>
-Yeah~~~</p>
-<h1 id="2-360-zip">2. 360 Zip</h1>
-<p>不是内个国内版的，是国际版的内个<br>
-功能和Bandizip一样，同样有压缩包语言（代码页），解决文件名称乱码<br>
-UI真的，贼好看（对于我的审美）<br>
-更重要的是，无捆绑无广告，大小才30MB左右<br>
-上图！<br>
-<img src="https://whatdamon.github.io/post-images/1587111989756.png" alt="" loading="lazy"></p>
-]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[营销号生成器 - 本地版]]></title>
