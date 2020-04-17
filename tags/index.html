@@ -1,70 +1,114 @@
 <html>
-<head>
-<!-- 必要参数 -->
-<meta charset="utf-8"/>
+  <head>
+  <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>What_Damon</title>
-<meta name="keywords" content="关键词"/>
-<meta name="description" content="简述"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable:no"/>
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<link rel="shortcut icon" href="favicon.ico">
-<!-- CSS -->
-<link rel="stylesheet" href="https://whatdamon.github.io/media/css/mdui.min.css">
-<link rel="stylesheet" href="https://whatdamon.github.io/media/css/modify.css">
-</head>
-<body>
-<body class="mdui-appbar-with-toolbar mdui-theme-primary-blue-grey mdui-theme-accent-blue mdui-theme-layout-dark">
-<header role="banner">
-    <div class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide mdui-shadow-0">
-        <div class="mdui-toolbar">
-            <button class="mdui-btn mdui-btn-icon" id="menu" mdui-drawer="{target:'#drawer',overlay:true,swipe:true}"><i class="mdui-icon material-icons">menu</i></button>
-            <a href="https://whatdamon.github.io" class="mdui-typo-headline">What_Damon</a>
-            <div class="mdui-toolbar-spacer"></div>
-            <button class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '深色样式切换', position: 'left'}" id="DarkStyle"><i class="mdui-icon material-icons">brightness_4</i></button>
-        </div>
-    </div>
-</header>
-
-<nav id="drawer" class="mdui-drawer mdui-drawer-full-height mdui-drawer-close">
-    <ul class="mdui-list">
-        <a href="/" class="menu"><li class="mdui-list-item mdui-ripple">首页</li></a>
-        <a href="/archives" class="menu"><li class="mdui-list-item mdui-ripple">文章</li></a>
-        <a href="/tags" class="menu"><li class="mdui-list-item mdui-ripple">标签</li></a>
-        <a href="/downloads" class="menu"><li class="mdui-list-item mdui-ripple">下载</li></a>
-        <a href="/about" class="menu"><li class="mdui-list-item mdui-ripple">关于</li></a>
-        <a href="http://damon233.ys168.com/" class="menu"><li class="mdui-list-item mdui-ripple">空间</li></a>
-        
-        <a href="https://github.com/CPlayer-CN/gridea-theme-cplayer-material" class="spread"><li class="mdui-list-item mdui-ripple">主题主页</li></a>
-    </ul>
-</nav>
+<link rel="shortcut icon" href="https://whatdamon.github.io/favicon.ico?v=1587119649380">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://whatdamon.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="What_Damon - Atom Feed" href="https://whatdamon.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
-<main class="mdui-container mdui-m-t-2">
-    <div class="mdui-card">
-        <div class="mdui-card-primary">
-            <div class="mdui-card-primary-title">标签列表</div>
-        </div>
-        <div class="mdui-card-actions">
-            
-                <a href="https://whatdamon.github.io/tag/OTHER/" class="mdui-chip"><span class="mdui-chip-title">其他</span></a>
-            
-                <a href="https://whatdamon.github.io/tag/APPTJ/" class="mdui-chip"><span class="mdui-chip-title">软件推荐</span></a>
-            
-                <a href="https://whatdamon.github.io/tag/TOOLS/" class="mdui-chip"><span class="mdui-chip-title">小工具</span></a>
-            
-                <a href="https://whatdamon.github.io/tag/EPL/" class="mdui-chip"><span class="mdui-chip-title">易语言</span></a>
-            
-        </div>
-    </div>
-</main>
 
-<div class="mdui-m-t-2 mdui-text-center mdui-typo">
-    What_Damon Blog
+  <meta name="description" content="B站不知名咕咕咕UP主的博客" />
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://whatdamon.github.io">
+  <img class="avatar" src="https://whatdamon.github.io/images/avatar.png?v=1587119649380" alt="">
+  </a>
+  <h1 class="site-title">
+    What_Damon
+  </h1>
+  <p class="site-description">
+    B站不知名咕咕咕UP主的博客
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/downloads" class="menu">
+          下载
+        </a>
+      
+    
+      
+        <a href="/about" class="menu">
+          关于
+        </a>
+      
+    
+      
+        <a href="http://damon233.ys168.com/" class="menu">
+          空间
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://www.github.com/whatdamon" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://www.zhihu.com/people/what-damon" target="_blank">
+          <i class="ri-zhihu-line"></i>
+        </a>
+      
+    
+      
+    
+  </div>
 </div>
 
-<script src="https://whatdamon.github.io/media/js/jquery.min.js"></script>
-<script src="https://whatdamon.github.io/media/js/mdui.min.js"></script>
-<script src="https://whatdamon.github.io/media/js/modify.js"></script>
 
-</body>
+        <div class="tags-container">
+          
+            <a class="tag" href="https://whatdamon.github.io/tag/OTHER/">其他</a>
+          
+            <a class="tag" href="https://whatdamon.github.io/tag/APPTJ/">软件推荐</a>
+          
+            <a class="tag" href="https://whatdamon.github.io/tag/TOOLS/">小工具</a>
+          
+            <a class="tag" href="https://whatdamon.github.io/tag/EPL/">易语言</a>
+          
+        </div>
+
+        <div class="site-footer">
+  What_Damon Blog
+  <a class="rss" href="https://whatdamon.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
 </html>
