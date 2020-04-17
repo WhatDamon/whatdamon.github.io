@@ -1,120 +1,144 @@
 <html>
-  <head>
-  <meta charset="utf-8" />
+
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>软件推荐 | What_Damon</title>
-<link rel="shortcut icon" href="https://whatdamon.github.io/favicon.ico?v=1587120223650">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<title>
+    软件推荐 | What_Damon
+</title>
+<link rel="shortcut icon" href="https://whatdamon.github.io/favicon.ico?v=1587120275765">
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://whatdamon.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="软件推荐 | What_Damon - Atom Feed" href="https://whatdamon.github.io/atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<!-- js -->
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://whatdamon.github.io/media/js/jquery.sticky-sidebar.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
 
 
+</head>
 
-  <meta name="description" content="B站不知名咕咕咕UP主的博客" />
-  </head>
-  <body>
+<body>
     <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://whatdamon.github.io">
-  <img class="avatar" src="https://whatdamon.github.io/images/avatar.png?v=1587120223650" alt="">
-  </a>
-  <h1 class="site-title">
-    What_Damon
-  </h1>
-  <p class="site-description">
-    B站不知名咕咕咕UP主的博客
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          文章
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/downloads" class="menu">
-          下载
-        </a>
-      
-    
-      
-        <a href="/about" class="menu">
-          关于
-        </a>
-      
-    
-      
-        <a href="http://damon233.ys168.com/" class="menu">
-          空间
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-        <a href="https://www.github.com/whatdamon" target="_blank">
-          <i class="ri-github-line"></i>
-        </a>
-      
-    
-      
-    
-      
-    
-      
-        <a href="https://www.zhihu.com/people/what-damon" target="_blank">
-          <i class="ri-zhihu-line"></i>
-        </a>
-      
-    
-      
-    
-  </div>
+        <div class="header">
+    <div class="nav">
+        <div class="logo">
+            <a href="https://whatdamon.github.io">
+                <img class="avatar" src="https://whatdamon.github.io/images/avatar.png?v=1587120275765" alt="">
+            </a>
+            <div class="site-title">
+                <h1>
+                    What_Damon
+                </h1>
+            </div>
+        </div>
+        <span class="menu-btn fa fa-align-justify"></span>
+        <div class="menu-container">
+            <ul>
+                
+                    
+                            <li>
+                                <a href="/" class="menu">
+                                    首页
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/archives" class="menu">
+                                    文章
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/tags" class="menu">
+                                    标签
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/downloads" class="menu">
+                                    下载
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/about" class="menu">
+                                    关于
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="http://damon233.ys168.com/" class="menu">
+                                    空间
+                                </a>
+                            </li>
+                            
+                                
+            </ul>
+        </div>
+    </div>
 </div>
 
-        <div class="current-tag-container">
-            <h2 class="title">
-                标签：# 软件推荐
-            </h2> 
-        </div>
-        <div class="post-container">
-  
-    <article class="post">
-      <a href="https://whatdamon.github.io/bxmbandizipshi2apptj-1/">
-        <h2 class="post-title">不想花钱买新版Bandizip，试试这两款压缩软件</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-04-17
-        </span>
-        <span>
-          1 min read
-        </span>
+<script>
+    $(document).ready(function() {
+        $(".menu-btn").click(function() {
+            $(".menu-container").slideToggle();
+        });
+        $(window).resize(function() {
+
+            if (window.matchMedia('(min-width: 960px)').matches) {
+                $(".menu-container").css('display', 'block')
+            } else {
+                $(".menu-container").css('display', 'none')
+            }
+
+        });
+    });
+</script>
+
+            <div id="main-content" class="post-container main-container">
+                <div id="content" class="main-container-left">
+                    
+    <div class="i-card">
+        <b>标签：#
+        软件推荐</b>
+    </div>
+    
         
-          <a href="https://whatdamon.github.io/tag/APPTJ/" class="post-tag">
-            # 软件推荐
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <h1 id="1-peazip">1. Peazip</h1>
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://whatdamon.github.io/bxmbandizipshi2apptj-1/">
+                        不想花钱买新版Bandizip，试试这两款压缩软件
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-04-17</time>
+                    
+                        <a href="https://whatdamon.github.io/tag/APPTJ/" class="post-tag i-tag
+                            i-tag-other_2">
+            #软件推荐
+        </a>
+                        
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                    <div class="post-content-abstract">
+                                        <h1 id="1-peazip">1. Peazip</h1>
 <p>这款压缩软件我体验过一段时间，免费开源，非常清爽，另外，它非常配Windows 10的UI，外观的自定义型很强（但比WinRAR要弱一丢丢丢丢......丢丢丢丢丢丢丢）<br>
 先上张官网宣传图吧（不自己截是因为👴已经把它卸载啦）<br>
 <img src="https://whatdamon.github.io/post-images/1587102683619.png" alt="" loading="lazy"><br>
@@ -129,33 +153,39 @@ UI真的，贼好看（对于我的审美）<br>
 上图！<br>
 <img src="https://whatdamon.github.io/post-images/1587111989756.png" alt="" loading="lazy"></p>
 
-      </div>
-    </article>
-  
-    <article class="post">
-      <a href="https://whatdamon.github.io/aboutpandownloadgb/">
-        <h2 class="post-title">关于PanDownload事件</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-04-16
-        </span>
-        <span>
-          2 min read
-        </span>
-        
-          <a href="https://whatdamon.github.io/tag/APPTJ/" class="post-tag">
-            # 软件推荐
-          </a>
-        
-          <a href="https://whatdamon.github.io/tag/OTHER/" class="post-tag">
-            # 其他
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <h1 id="主">主</h1>
+                                    </div>
+                                    
+                                            <a class="btn btn-text" href="https://whatdamon.github.io/bxmbandizipshi2apptj-1/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://whatdamon.github.io/aboutpandownloadgb/">
+                        关于PanDownload事件
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-04-16</time>
+                    
+                        <a href="https://whatdamon.github.io/tag/APPTJ/" class="post-tag i-tag
+                            i-tag-info">
+            #软件推荐
+        </a>
+                        
+                        <a href="https://whatdamon.github.io/tag/OTHER/" class="post-tag i-tag
+                            i-tag-other_4">
+            #其他
+        </a>
+                        
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                    <div class="post-content-abstract">
+                                        <h1 id="主">主</h1>
 <p>这段时间，PanDownload开发者被捕，目前pandownload的所有网站<br>
 <a href="http://www.pandownload.com">http://www.pandownload.com</a><br>
 <a href="http://www.baiduwp.com">http://www.baiduwp.com</a><br>
@@ -176,32 +206,37 @@ PanDownload的确是一款优秀的软件，它给许多用户带来放便利，
 <h2 id="4-motrix">4. Motrix</h2>
 <p>速度一般吧，当然可以当普通的下载器使用</p>
 
-      </div>
-    </article>
-  
-    <article class="post">
-      <a href="https://whatdamon.github.io/cleanerapptj-1/">
-        <h2 class="post-title">推荐两款优秀的系统清理软件</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-04-15
-        </span>
-        <span>
-          2 min read
-        </span>
-        
-          <a href="https://whatdamon.github.io/tag/APPTJ/" class="post-tag">
-            # 软件推荐
-          </a>
-        
-      </div>
-      
-        <a href="https://whatdamon.github.io/cleanerapptj-1/" class="post-feature-image" style="background-image: url('https://whatdamon.github.io/post-images/cleanerapptj-1.png')">
+                                    </div>
+                                    
+                                            <a class="btn btn-text" href="https://whatdamon.github.io/aboutpandownloadgb/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://whatdamon.github.io/cleanerapptj-1/">
+                        推荐两款优秀的系统清理软件
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-04-15</time>
+                    
+                        <a href="https://whatdamon.github.io/tag/APPTJ/" class="post-tag i-tag
+                            i-tag-info">
+            #软件推荐
         </a>
-      
-      <div class="post-abstract">
-        <h1 id="1-ccleaner">1. CCleaner</h1>
+                        
+                </div>
+                <div class="post-article">
+                    
+                        <a href="https://whatdamon.github.io/cleanerapptj-1/" class="post-feature-image" style="background-image:url(https://whatdamon.github.io/post-images/cleanerapptj-1.png) ">
+                        </a>
+                        
+                            <div class="post-content">
+                                
+                                    <div class="post-content-abstract">
+                                        <h1 id="1-ccleaner">1. CCleaner</h1>
 <p>不用我多说，它可以清理跟踪器、注册表、缓存文件等等等等，还可以自定义选择，当然，它还可以完全卸载顽固软件，升级国外的软件<br>
 当然问题很明显，不付费很多功能没法用，但基本上够用了，如果使用了Professional版，关闭浏览器会弹出一个很烦人的小窗口，如果你使用断网破解方式，等个几天，会是不是弹出许可证到期通知，但事实上并非如此，另外清理一次产生缓存也有500MB。。。<br>
 直接上官网链接！<br>
@@ -214,32 +249,37 @@ PanDownload的确是一款优秀的软件，它给许多用户带来放便利，
 <a href="http://www.360.cn/n/11298.html">官网</a><br>
 翻到下载进行下载</p>
 
-      </div>
-    </article>
-  
-    <article class="post">
-      <a href="https://whatdamon.github.io/AppTJ-1/">
-        <h2 class="post-title">推荐一下优秀的软件</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-04-15
-        </span>
-        <span>
-          3 min read
-        </span>
-        
-          <a href="https://whatdamon.github.io/tag/APPTJ/" class="post-tag">
-            # 软件推荐
-          </a>
-        
-      </div>
-      
-        <a href="https://whatdamon.github.io/AppTJ-1/" class="post-feature-image" style="background-image: url('https://whatdamon.github.io/post-images/AppTJ-1.png')">
+                                    </div>
+                                    
+                                            <a class="btn btn-text" href="https://whatdamon.github.io/cleanerapptj-1/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://whatdamon.github.io/AppTJ-1/">
+                        推荐一下优秀的软件
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2020-04-15</time>
+                    
+                        <a href="https://whatdamon.github.io/tag/APPTJ/" class="post-tag i-tag
+                            i-tag-warning">
+            #软件推荐
         </a>
-      
-      <div class="post-abstract">
-        <h1 id="1-7zip-压缩软件">1. 7zip - 压缩软件</h1>
+                        
+                </div>
+                <div class="post-article">
+                    
+                        <a href="https://whatdamon.github.io/AppTJ-1/" class="post-feature-image" style="background-image:url(https://whatdamon.github.io/post-images/AppTJ-1.png) ">
+                        </a>
+                        
+                            <div class="post-content">
+                                
+                                    <div class="post-content-abstract">
+                                        <h1 id="1-7zip-压缩软件">1. 7zip - 压缩软件</h1>
 <p>优点：轻量级压缩软件，压缩率炒鸡高，解压速度也很快，兼容性也很强，Alpha版本都很稳定<br>
 缺点：UI太Low，小白不建议上手，图标总感觉回到了Windows 2000时代。。。<br>
 下载链接：<a href="https://www.7-zip.org/">https://www.7-zip.org/</a></p>
@@ -291,24 +331,71 @@ PanDownload的确是一款优秀的软件，它给许多用户带来放便利，
 这个软件其实不用付费了，因为也没用<br>
 下载链接：<a href="https://www.ccleaner.com/recuva">https://www.ccleaner.com/recuva</a></p>
 
-      </div>
-    </article>
-  
-</div>
+                                    </div>
+                                    
+                                            <a class="btn btn-text" href="https://whatdamon.github.io/AppTJ-1/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
+                <!-- 翻页 -->
+                
+                </div>
+                <!--  -->
+                <div class="main-container-middle"></div>
+                <!--  -->
+                <div id="sidebar" class="main-container-right">
 
-        <div class="pagination-container">
-  
-  
-</div>
+                    <!-- 个人信息 -->
+                    
+    <div class="id_card i-card">
+        <div class="id_card-avatar" style="background-image: url(https://whatdamon.github.io/images/avatar.png?v=1587120275765)">
+        </div>
+        <h1 class="id_card-title">
+            What_Damon
+        </h1>
+        <h2 class="id_card-description">
+            B站不知名咕咕咕UP主的博客
+        </h2>
+        <!--  -->
+        <div class="id_card-sns">
+            <!-- github -->
+            
+                    <!-- twitter -->
+                    
+                            <!-- weibo -->
+                            
+                                    <!-- facebook -->
+                                    
 
-        <div class="site-footer">
-  What_Damon Blog
-  <a class="rss" href="https://whatdamon.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-</div>
-
-      </div>
+        </div>
     </div>
-  </body>
+    
+
+                        <!-- 公告栏 -->
+                        
+
+                </div>
+            </div>
+
+
+
+            <div class="site-footer">
+  What_Damon Blog | 
+  <a class="rss" href="https://whatdamon.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+    <script>
+        $('#sidebar').stickySidebar({
+            topSpacing: 80,
+            // bottomSpacing: 60
+        });
+    </script>
+</body>
+
 </html>
