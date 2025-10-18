@@ -4,6 +4,46 @@
   
   
   <entry>
+    <title>在macOS应用上使用液态玻璃图标保姆级教程</title>
+    <link href="/useLiquidGlassIcon/"/>
+    <url>/useLiquidGlassIcon/</url>
+    
+    <content type="html"><![CDATA[<h1 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h1><p>2025年苹果发布了macOS Tahoe，引入了新的液态玻璃设计，同时也对图标进行了升级，可以进行更多的自定义，但是对于非Xcode项目而言，要成功应用这一套新的图标有不少阻碍，本文介绍一种方案，可以帮助大部分非Xcode项目在macOS上也可以用上液态玻璃图标。</p><h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>这里使用一个流程图进行表示macOS 26+系统的图标获取过程（请启用JS，加载它需要一点时间，并且内容可能会有点不严谨）</p><pre><code class=" mermaid">graph TD    A[&quot;请求图标&quot;] -- &quot;读取Info.plist&quot; --&gt; n1@&#123; label: &quot;Info.plist是否存在CFBundleIconName&quot; &#125;    n1 -- 是 --&gt; C&#123;&quot;是否存在Assets.car&quot;&#125;    n1 -- 否 --&gt; n3@&#123; label: &quot;Info.plist是否存在CFBundleIconFile&quot; &#125;    n3 -- 是 --&gt; n4[&quot;是否存在&lt;br /&gt;指定的icns&quot;]    n3 -- 否 --&gt; n2[/&quot;加载占位图标&quot;/]    n4 -- 否 --&gt; n2    n4 -- 是 --&gt; E[/&quot;加载icns&quot;/]    C -- 是 --&gt; n5[&quot;是否可以按照&lt;br /&gt;Info.plist数据获取图标&quot;]    n5 -- 是 --&gt; D[/&quot;加载Assets.car数据，&lt;br /&gt;合成液态玻璃图标&quot;/]    C -- 否 --&gt; n3    n5 -- 否 --&gt; n3</code></pre><p>可以看到，要实现液态玻璃图标，关键在于<code>Assets.car</code>文件，<code>.icns</code>图标与<code>Assets.car</code>中的图标互不冲突</p><h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul><li><strong>耐心</strong>（毕竟各种奇奇怪怪的情况总会意外阻止你前进，被迫重新开始）</li><li><strong>白苹果Mac</strong>（Windows下的虚拟机会异常卡顿，并且还有概率会引发Kernel Panic导致重头再来，另外生成液态玻璃图标必须使用完整的Xcode，单纯的Xcode命令行工具无法完成，更卡）</li><li><strong>macOS 26及更新版本（</strong>在macOS 15没有成功，可能是不支持，即便Xcode 26和Icon Composer均可以运行在macOS 15上）</li><li><strong>Xcode 26及更新版本</strong> + <strong>macOS 26 SDK及更新SDK</strong></li><li><strong>Icon Composer</strong>（WWDC 2025版本，用于制作液态玻璃图标，如果愿意也可以手搓不用它，这里不进行讲解）</li></ul><h2 id="须知"><a href="#须知" class="headerlink" title="须知"></a>须知</h2><ol><li>如果你的项目已经包含了<code>Assets.car</code>，您可以取其中一部分参考，这里默认认为你没有<code>Assets.car</code></li><li>使用液态玻璃图标的硬性要求是App Bundle，这也代表着Java JAR或者Unix可执行文件不进行打包无法使用液态玻璃图标</li><li>如果软件在使用过程中会使用已有资源替代Dock上的图标，那么在Dock中你所创建的图标会被替代</li></ol><h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><h3 id="1-创建一个液态玻璃图标"><a href="#1-创建一个液态玻璃图标" class="headerlink" title="1. 创建一个液态玻璃图标"></a>1. 创建一个液态玻璃图标</h3><p>使用您下载的Icon Composer创建一个液态玻璃图标，这里不详细描述，若有需要，请查阅以下网站：</p><ul><li><a href="https://developer.apple.com/documentation/Xcode/creating-your-app-icon-using-icon-composer">Creating your app icon using Icon Composer | Apple Developer Documentation</a></li><li>B站也有不少视频可以进行参考学习</li></ul><p><img src="/./img/icon_composer.png" alt="Icon Composer制作图标"></p><blockquote><p>注意，如果你希望分发保存的项目，请别忘记先压缩一下，<code>.icon</code>为后缀的文件本质上也是一个文件夹！</p></blockquote><h3 id="2-新建Xcode项目"><a href="#2-新建Xcode项目" class="headerlink" title="2. 新建Xcode项目"></a>2. 新建Xcode项目</h3><p>创建新项目，模板请选择”App”</p><p><img src="/./img/Xcode_new1.png" alt="Xcode新建项目类型选择"></p><p>然后的Xcode会要求你提供软件的名称，随便填写，组织对于第一次使用的用户而言随便填写一个即可，其他图方便均选”None”即可</p><p><img src="/./img/Xcode_new2.png" alt="Xcode新建项目选项"></p><p>如果你想探索一下在macOS 15上处理的可行性（毕竟是不是真的无法生成我也拿不准），可能会多出两个选项：”Interface”和”Language”</p><p><img src="/./img/Xcode_new2_15.png" alt="Xcode新建项目选项，在macOS 15"></p><p>对于这两个选项，我个人建议分别选用”SwiftUI”和”Swift”，就像图中那样，毕竟macOS 26虽然不可见但默认选择的就是这么一套</p><p>至此，你已经成功完成了项目的创建！</p><h3 id="3-引入并提取图标"><a href="#3-引入并提取图标" class="headerlink" title="3. 引入并提取图标"></a>3. 引入并提取图标</h3><p>请先把<code>.icon</code>文件更名为<code>AppIcon.icon</code>，不然依旧是占位图标：</p><p><img src="/./img/macOS_build_placholderIcon.png" alt="占位图标"></p><p>直接将图标文件拖到文件树导入，弹出的提示窗口在确保唯一的项目是被选中的前提下点击Finish完成导入</p><p>直接运行然后退出，然后在顶栏选择”Product”-&gt;”Show Build Folder in Finder”，这将在访达中打开Debug构建所在位置</p><p><img src="/./img/Xcode_ProductLocation.png" alt="选项位置"></p><p>进入Debug目录，你会发现那个<code>.app</code>文件正在静静地躺在那里</p><p>如果你遇到了在访达中看起来依旧在使用占位图标的问题，你可以在选中应用然后按下<kbd>Space</kbd>，打开Quicklook，在这里你可以确定它是否成功应用了你自己设计的新图标</p><p><img src="/./img/macOS_product_quicklook.png" alt="Quicklook下的编译产物"></p><p>至此，图标资源的生成工作已经完成！</p><p>现在右键这个程序，选择“显示包内容”，导航到<code>/Contents/Resources</code>下，你所需要的两个文件就在这里了</p><p><img src="/./img/macOS_assets_needed.png" alt="所需的两个文件"></p><p>把这两个文件复制出来，提取工作也告一段落</p><h3 id="4-应用新图标"><a href="#4-应用新图标" class="headerlink" title="4. 应用新图标"></a>4. 应用新图标</h3><p>现在到你所开发的软件这里，同样的打开包文件，定位到<code>/Contents/Resources</code>下，将上面复制的文件替换进去（或者单一的<code>Assets.car</code>）</p><p>我在前面提到，macOS 26+在读取过程中会使用<code>Assets.car</code>中的文件合成液态玻璃图标，但我没提到这个<code>.icns</code>文件是为了保证对老系统（macOS 15及更老版本）的兼容而保留的，所以如果你希望在这些老系统不要应用液态玻璃图标，上图中的<code>AppIcon.icns</code>无需复制进来</p><p>然后需要做的就是让macOS认出来，用文本编辑器打开包中<code>/Contents/Info.plist</code>（不太推荐使用Xcode，它会使用自然语言来解释那些晦涩的东西，虽然更容易看懂但是更加麻烦）</p><p>在<code>dict</code>中添加…</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>CFBundleIconName<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>AppIcon<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br></code></pre></td></tr></table></figure><p>保存后，现在你的应用的液态玻璃图标在macOS 26+应该可以被正确识别了！</p><p>如果你希望修改<code>.icns</code>图标，你可以选择直接改名字去替换<code>Resources</code>目录下已有的图标，或者把新图标放进去然后修改<code>Info.plist</code>：</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>CFBundleIconFile<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>AppIcon.icns<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span><br></code></pre></td></tr></table></figure><p>意为把App Bundle的图标更换为生成的<code>AppIcon.icns</code></p><p>至此，一切大功告成，如果系统看起来没有更新图标，你可以选择重启一下设备~</p><h1 id="附加"><a href="#附加" class="headerlink" title="附加"></a>附加</h1><h2 id="这个Assets-car里面有什么？"><a href="#这个Assets-car里面有什么？" class="headerlink" title="这个Assets.car里面有什么？"></a>这个Assets.car里面有什么？</h2><p>看图：</p><p><img src="/./img/inside_assetsCar.png" alt="Assets.car内的资源，使用Asset Catalog Tinkerer工具"></p><h2 id="关于CI-CD"><a href="#关于CI-CD" class="headerlink" title="关于CI&#x2F;CD"></a>关于CI&#x2F;CD</h2><p>目前用命令行还没有研究出个所以然，我也不清楚该怎么办，您可以期待一下后来人的实现</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Develop</tag>
+      
+      <tag>macOS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>关于部分文章下架须知</title>
+    <link href="/someArticlesTakenDownNotice/"/>
+    <url>/someArticlesTakenDownNotice/</url>
+    
+    <content type="html"><![CDATA[<h2 id="发生什么了？"><a href="#发生什么了？" class="headerlink" title="发生什么了？"></a>发生什么了？</h2><p>如你所见，我下架了大量本站的文章。</p><p>很高兴又各位的支持，但是坦白说，随着阅历的增多和一些其他原因，我愈发感觉这个博客的一些文章有点 <strong>silly</strong> （蠢的）。</p><p>例如大量未经证实的资料道听途说就直接公布，当然还有不少带有煽动性的言论……</p><p>我曾想过是否有必要继续维护这个博客，许多次的答案都是“是”，再加上学习压力的冲击，确实，我有点累了。</p><p>但自从2024年的一时冲动购买了域名（<code>damon233.top</code>，现在因为一些原因可能该域名在2034年到期后没有机会续签），我还是想着打理一下博客，至少改一下页尾的版权年份。</p><p>决定继续维护博客带来的就结果就是我会偶尔关注我以前的哪一些文章，怎么看怎么别扭，最后还是决定一次性下架吧，然后就有了这一件事情。</p><h2 id="未来发展方向"><a href="#未来发展方向" class="headerlink" title="未来发展方向"></a>未来发展方向</h2><p>毕竟是玩技术的，我打算让博客内容逐步向技术内容迁移，当然帮朋友或自己宣传东西这类不算“太傻”的文章也会写写，还有一些非常主观的吐槽。但毕竟不是全职，我也只是一个学生，再加上个人添置了一个新设备（MacBook Pro 2024 Nov, <code>Mac16,1</code>）并且因为一些需求越用越多，此博客更新频率会更加带有随机性（目前博客的所有资源目前都存在我的Windows设备上，迁移搞环境配置太糟心了，并且两台设备的交替使用也有可能会导致一些“打架”）。</p><p>当然了，我在不少写作平台都有账号，未来我在这些平台的作品如果有一定的价值，也会考虑给本博客加点小料。</p><h2 id="但是我还想看……"><a href="#但是我还想看……" class="headerlink" title="但是我还想看……"></a>但是我还想看……</h2><p>对于部分文章，下架只是暂时的，在进行了调整之后，它们有概率会重新上架（保留原来的发布日期），但对于那些有一定煽动性，或者主要通过“洗稿”完成的文章，当然还有一些蠢到不能在蠢的门外汉型技术文章，大概率是没有希望了。</p><p>不过这不代表这没有任何机会，本站笔记是在GitHub Pages托管，你可以看看我以前的提交，在那里也能找到你所需要的东西，互联网档案馆的Wayback Machine如果有存档，你也可以翻翻看。</p><p>还有一点是那些文章使用的图片我并不打算删除，假装被某些人直接链接使用了，贸然删除总不太恰当。</p><hr><p>总之，事已至此，本站的改革之路已经开始，其他的不用再关注，尽我所能让量的积累实现质的变化，也算是我对这个快节奏的互联网一个小小的贡献吧……</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>ThisBlog</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>一切都变了，关于VirtualBox 7.1.0 BETA1</title>
     <link href="/everythingChangeAtVBox710Beta1/"/>
     <url>/everythingChangeAtVBox710Beta1/</url>
@@ -14,11 +54,9 @@
     
     <tags>
       
-      <tag>虚拟机</tag>
+      <tag>Software</tag>
       
-      <tag>VBox</tag>
-      
-      <tag>电脑</tag>
+      <tag>VirtualMachine</tag>
       
     </tags>
     
@@ -37,45 +75,9 @@
     
     <tags>
       
-      <tag>Others</tag>
+      <tag>Thoughts</tag>
       
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>政治私活，诋毁天朝，我们应该抵制Notepad++！</title>
-    <link href="/antiNotepadpp/"/>
-    <url>/antiNotepadpp/</url>
-    
-    <content type="html"><![CDATA[<p><strong>⚠️注意！本文可能会涉及政治相关内容，Notepad++现在那些反华页面和下载页面统统不能访问⚠️</strong></p><p>在开始吐槽Notepad++前，我们先介绍一下它的作者吧</p><h2 id="作者简介"><a href="#作者简介" class="headerlink" title="作者简介"></a>作者简介</h2><p>侯今吾（英语：DonHO），台湾人，是纯文字编辑器Notepad++（一个GNU通用公共许可证的自由软件）的开发者。并且是自由软件的推动者之一。毕业于台湾淡江大学法文系及巴黎第七大学电脑工程硕士与电脑工程高等分科教育文凭。现在他的职业为程式设计师，任职于资讯保全维护公司──从事资讯安全系统规划及专案开发。</p><p>侯今吾有着高学历，能力也不小，但是你要知道……</p><p>侯今吾是典型的台独分子，不过他选择的是在全世界流行的Notepad++，通过加入自己的政治立场，向全世界灌输了抹黑我国的谣言。</p><h2 id="Notepad-简介"><a href="#Notepad-简介" class="headerlink" title="Notepad++简介"></a>Notepad++简介</h2><p>Notepad++是 Windows操作系统下的一套文本编辑器（软件版权许可证: GPL），有完整的中文化接口及支持多国语言编写的功能（UTF8技术）。Notepad++功能比 Windows 中的 Notepad（记事本）强大，除了可以用来制作一般的纯文字说明文件，也十分适合编写计算机程序代码。Notepad++ 不仅有语法高亮度显示，也有语法折叠功能，并且支持宏以及扩充基本功能的外挂模组。Notepad++是免费软件，可以免费使用，自带中文，支持众多计算机程序语言，基于著名的Scintilla开发。</p><h2 id="抵制历程"><a href="#抵制历程" class="headerlink" title="抵制历程"></a>抵制历程</h2><h3 id="第一次抵制浪潮"><a href="#第一次抵制浪潮" class="headerlink" title="第一次抵制浪潮"></a>第一次抵制浪潮</h3><p>2008 年，Notepad++在主页上发出所谓 “抵制北京奥运” 信息。掀起了国内抵制Notepad++的浪潮。国家为了防止大陆人民被误导，曾墙了SourceForge（Notepad++官网在此处寄存）。由于当时的GitHub刚刚出现，国内很少人用，SourceForge可以说是当时中国可以访问的最大开源社区。这一墙，导致编程圈里很多人都没法去下载开发框架或者其他软件源码。在侯今吾删除了该横幅才恢复访问。</p><p>此时，Notepad++的用户开始流失。</p><h3 id="第二次抵制浪潮"><a href="#第二次抵制浪潮" class="headerlink" title="第二次抵制浪潮"></a>第二次抵制浪潮</h3><p>侯今吾发布Notepad++ 6.6.4（Tiananmen June Fourth Incident Edition），介于内容特殊性，不做翻译，反正就是再一次掀起了大陆抵制浪潮。</p><h3 id="第三次抵制浪潮"><a href="#第三次抵制浪潮" class="headerlink" title="第三次抵制浪潮"></a>第三次抵制浪潮</h3><p>2019 年 10 月 29 日，Notepad++ 7.8.1发布，侯今吾将该版本命名为 “Free Uyghur”（解放维吾尔族），声援所谓 “新疆再教育营” 中的维吾尔族人。新版本发布几小时后。Notepad++在GitHub的问题跟踪页被大量来自中国大陆网友 “出征”，大量批评、斥责如海水般涌入，挤爆了该页面，Notepad++官网也被迫关站。切换到实际，事实并非如此，这又只不过是侯今吾为抵制中国的谣言罢了，中国宪法规定的人人平等并不是说着玩的，侯今吾又是借一些实时挑刺罢了。这一行为再次引起民愤，Notepad++再一次痛失大量中国用户。</p><h3 id="第四次抵制浪潮"><a href="#第四次抵制浪潮" class="headerlink" title="第四次抵制浪潮"></a>第四次抵制浪潮</h3><blockquote><p>自 2019 年 6 月以来，数百万香港人一直在抗议，以捍卫他们的自由和自治。现在情况更糟——6月30日，中国通过了所谓的香港“国家安全法”，剥夺了香港人民的自由和人权。</p></blockquote><p>这是关于这次更新的描述，我已经忍不住笑了，这抗议者应该就是那些港独分子，香港绝大部分普通人在这一年基本就是活在水生火热里的，时刻都要担心自己的安危。国安法的施行其实也得到了绝大部分香港同胞的支持。侯今吾只不过想再抹黑一次中国大陆罢了。</p><p>结果，和前面类似。</p><h3 id="第五次抵制浪潮"><a href="#第五次抵制浪潮" class="headerlink" title="第五次抵制浪潮"></a>第五次抵制浪潮</h3><p>2022年2 月 4 日北京冬奥开幕式当天，文本编辑器Notepad++的开发者侯今吾失眠了。他迫不及待地跳出来，为Notepad++炮制了一个所谓“抵制北京冬奥”版本，版本号8.3。</p><p>这是当初侯今吾发布的推文……</p><blockquote><p>這個殺傷力實在太大了！我誠心地向十一億的中國人道歉。 並將在二零二二年推出 Notepad++「抵制 中國冬季奧運」版本來表示我的歉意。</p></blockquote><p>这就是所谓的道歉？这一事件，大量媒体和用户再一次炮轰Notepad++，把自己作死了。</p><h3 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h3><p>侯今吾为了一己之利而搞出来的骚操作也着实让人摸不着头脑。</p><blockquote><p>A new feature just enabled in Notepad++ :<br>If you don’t agree with its politics views, Notepad+ + will add random characters in your source code.</p></blockquote><p>这段内容来自Notepad++的官方推特，这是翻译：</p><blockquote><p>一个新功能在Notepad++启用：<br>如果你不同意它的政治观点，Notepad++将在你的源代码中添加随机字符。</p></blockquote><p>说白了就是想要把那些支持中国但把Notepad++作为主力编辑器的人强行拖下水，找人来一起背锅，不接受，它就要毁了你的代码！</p><p>这是在让人难以理解！并且再一次得罪了大陆人民和中国的国际友人。</p><p>但是这件事情的最后又被侯今吾反对，称只是一个笑话，并认为每一天都可以是愚人节，但是他的下一个推让人再一次鄙视他</p><blockquote><p>在網上流傳Notepad++是個很「乳滑」軟體。<br>辱華?我從未侮辱過中國。我只是精準的描述中國。<br>China, I’m not insulting you. I’m just describing you.</p></blockquote><p>我已经无言以对了！</p><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><blockquote><p>作为一名来自中国台湾省的软件开发者，侯今吾在软件发版上插入政治符号，借政治话题秀下限、蹭流量、求曝光，这在软件开发界，大概无人能出其右。</p><p>只是这招太 Low 太尴尬，但他浑然不觉，甚至还上了瘾。</p><p>每次发「纪念版」，此人都感觉重任在肩，使命在身，他认为 Notepad++承担着拯救全人类的重要使命。</p><p>面对侯今吾的行径，中国网民给了他想要的关注和回应。</p></blockquote><p>这是软餐对此的评论。</p><p>虽然软餐的评价是想用就用，但是那是在2022年去考虑，而到现如今，Notepad++已经如此猖獗，我认为现在，不用考虑能不能用了，一票否决就行了（Notepad++名气太大了，我已经听说有公司尝试卖这个软件，违背了GPL协议啊）。</p><p>按照软餐的话来讲，<strong>侯今吾连根葱都算不上，实在掀不起一波一澜。其行径可谓蚍蜉撼大树，可笑不自量。</strong></p><p>市面上的替代品可以让你眼花缭乱，为什么还要拘泥于这托屎呢？</p><p><font color="red" size="6"><strong>再见！Notepad++，我们用不着你！</strong></font></p><hr><p><strong>参考资料</strong></p><ol><li><a href="https://www.ruancan.com/p/78738.html">Notepad++作者果然又跳出来了，这次想抵制北京冬奥 - 软餐 (ruancan.com)</a></li><li><a href="https://www.yistars.cn/boycott-notepad/">与我一起抵制 Notepad++ - 冰砚炽 (yistars.cn)</a></li><li><a href="http://www.ityouknow.com/it/2020/05/29/wuguojie.html">给大家讲一个笑话：技术是无国界的！ - 纯洁的微笑博客 (ityouknow.com)</a></li><li><a href="https://www.baike.com/wikiid/2618831721527091813">侯今吾 - 快懂百科 (baike.com)</a></li></ol>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>Others</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>再见，Windows 8.1</title>
-    <link href="/goodByeWin81/"/>
-    <url>/goodByeWin81/</url>
-    
-    <content type="html"><![CDATA[<h1 id="告别！Windows-8-1"><a href="#告别！Windows-8-1" class="headerlink" title="告别！Windows 8.1"></a>告别！Windows 8.1</h1><p><img src="/img/windows8-laptop.png" alt="Windows 8.1（图源微软）"></p><p>Windows 8.1将在2023年1月10日停止支持，无扩展安全更新计划，同时停止的还有Windows 7的3年扩展安全更新计划…</p><h3 id="Windows-8-1的历史"><a href="#Windows-8-1的历史" class="headerlink" title="Windows 8.1的历史"></a>Windows 8.1的历史</h3><p>Windows 8.1，开发代号为Windows Blue，内核从Windows 8的NT 6.2升级到了NT 6.3</p><p>2013年6月30日，微软在微软Build 2013大会中正式推出Windows 8.1预览版，到了2013年10月17日，微软发布Windows 8.1，并正式提供Windows 8.1的下载，所有安装了Windows 8的用户都可以通过Windows应用商店的更新中获得8.1版本更新（是的，应用商店，第一次，和当年的OS X一样，都后面和也苹果一样，应用商店和系统更新分开了）</p><p>到了2018年1月10日，微软正式宣布结束对Windows 8.1操作系统的主流支持，转入扩展支持阶段，这将持续到2023年1月10日</p><p>2022年，微软开始催促用户升级Windows 10或者最新的Windows 11</p><p><img src="/img/win8upwarn.png" alt="来自微软的催更（图源ChinaZ）"></p><h3 id="Windows-8-1的亮点"><a href="#Windows-8-1的亮点" class="headerlink" title="Windows 8.1的亮点"></a>Windows 8.1的亮点</h3><ol><li>恢复了开始按钮，并且支持登陆以后直接进桌面</li><li>对于高分屏进一步优化</li><li>Windows 8.1添加了新的邮件应用，同时Xbox Music也拥有了全新的版面设计</li><li>系统自带软键盘上增加了手势操作</li></ol><blockquote><p>Windows 8.1这一次的升级也是微软为了打造一款对于PC和平板都更加实用的平台这一尝试中最为成功的结果。开始按钮的回归表明微软意识到自己在Windows 8的计划当中走得有点太远了，这个小小的改动使得这个系统对于用户来说更加熟悉了。Windows 8.1还展示了微软想要统一旗下产品的决心和努力。桌面模式的灵活性依然是Windows 8.1当中最吸引人的使用方式。Windows 8用户当然都会欢迎Windows 8.1带来的改动，这些改动也应该清除某些部分的疑惑。</p><p><em>——搜狐网评</em></p></blockquote><p>的确，甚至可以说，Windows 8是在为Windows 8.1铺路，就像Windows Vista给Windows 7铺路一样</p><h3 id="相比同期的系统"><a href="#相比同期的系统" class="headerlink" title="相比同期的系统"></a>相比同期的系统</h3><p>Windows 8的Metro引领了计算机设计行业走向扁平化，虽然这本质上是对当时机能的一种妥协，Metro的灵动搭配毛玻璃太耗资源，但毫无争议，Windows 8无疑是做到了行业第一人，当年，OS X，iOS，以及大部分Linux发行版都在走拟物化的路线。相比Windows 7，Windows 8系列对UEFI有了质的飞跃，Metro风格的引导界面让人眼前一亮，甚至今天都还是那个样，Windows 8看中了平板的潜力，对触控做了许多优化，并且90年代的电脑无缘于Windows 8（不支持SSE2指令集），也让很多人用上了新电脑。微软似乎看中了云计算，SkyDrive（现OneDrive）等集成到系统。快速启动的引入，使Windows 8.1在相同设备开机速度比Windows 7快得多</p><h3 id="相比于后面的系统"><a href="#相比于后面的系统" class="headerlink" title="相比于后面的系统"></a>相比于后面的系统</h3><p>虽然Windows 8.1用机械硬盘也很慢，但相比Windows 10流畅太多太多，另外，Windows 10的Metro相比Windows 8.1也少了灵动，因为很多用户认为这几百毫秒完全没有意义。Windows 8.1的BUG相比Windows 10以及更新的Windows也少了很多，另外Windows 8.1的很多都得到了继承，还顺便解决了这个系统的很多痛点，甚至到了Windows 11，稍微修改下系统，就可以用上Charm栏，以及系统自带的Metro应用（Windows 11还原生支持Windows 8时代发布的Metro应用）</p><h3 id="命运"><a href="#命运" class="headerlink" title="命运"></a>命运</h3><p>虽然Windows 8的变化异常之大，改进特别多，但是只可惜，Windows 8以及Windows 8.1都是被遗忘的系统，就和Vista一样，生不逢时,过于超前，如果你问那些电脑小白，或许以为Windows 7的后代就是Windows 10，另外，大部分第三方软件都没有对Windows 8系列做专门的优化</p><p>尽管Windows 8.1也是一代被遗忘的系统，但是相比它的前代Windows 8而言，更受欢迎，因为很多用户痛点在这一代得到了解决</p><p>但是在Windows 11发布后，Windows 8.1再一次被网友所提起，因为这是最后一代稳定，流畅，且对老电脑友好的系统</p><h3 id="升级吧！"><a href="#升级吧！" class="headerlink" title="升级吧！"></a>升级吧！</h3><p>Windows 8.1虽然带给你了很多惊喜，但是Windows 8.1不可能伴随你那么久，10年了，我们可以让Windows 8.1歇息了，同时也在保障你的设备安全，虽然第三方可以为它续命，但终究不是长久之计。让那些都走吧，坐和放宽，升级你的系统，向未来前进吧！</p><hr><h3 id="顺便一说"><a href="#顺便一说" class="headerlink" title="顺便一说"></a>顺便一说</h3><p>Google Chrome，Microsoft Edge已经开始对使用Windows 7、Windows 8以及Windows 8.1的用户发出警告，称这些系统将无法再接受新版本更新，要求用户赶快升级，如果您有暂时停留在Windows 8.1或者Windows 7的需求，可以试试Firefox，但是不久也会停止支持的！</p><p><img src="/img/win8BrowserAskToUp.png" alt="浏览器催更"></p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>Windows</tag>
+      <tag>Develop</tag>
       
     </tags>
     
@@ -94,144 +96,9 @@
     
     <tags>
       
-      <tag>易语言</tag>
+      <tag>Thoughts</tag>
       
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>想用Virtual Box 7.0？我劝你再观望一下</title>
-    <link href="/pleaseWaitForVBox7/"/>
-    <url>/pleaseWaitForVBox7/</url>
-    
-    <content type="html"><![CDATA[<h4 id="先说定论，不推荐！"><a href="#先说定论，不推荐！" class="headerlink" title="先说定论，不推荐！"></a>先说定论，<font color=red>不推荐！</font></h4><p>现在，我需要告诉你Virtual Box 7.0相比6.0有哪些进步，哪些退步，以帮助你选择是否更新！</p><p>这次我不说废话，晒图自己看吧。。。</p><p>当然，如果你升级了，那么除了卸载重装VBox，都无法回到6.0</p><h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol><li><p>到了7.0，2.5k屏的显示效果大幅度缩水，字体于按钮得巨大</p><p><img src="/img/vboxcomparewindow.png" alt="组件真的太大了!"></p></li><li><p>插图开始缝合，出现了扁平和渐变杂糅乱象</p><p><img src="/img/vboxshitabout.png" alt="图标字体还是早期风格，但是文本图标已经是甲骨文风了"></p><p><img src="/img/vboxlaunch.png" alt="虚拟机启动界面"></p></li><li><p>新建虚拟机UI大幅缩水，看起来更加粗糙</p><p> <img src="/img/vboxnewvm.png" alt="变丑的新建虚拟机"></p></li><li><p>中文翻译不全，严重影响体验</p><p><img src="/img/vboxtranproblem.png" alt="Quit都没有翻译了"></p><p><img src="/img/vboxtranproblem1.png" alt="害!!!!"></p></li><li><p>虚拟机启动效率变慢，每次启动你都要等最少15秒</p><p> <img src="/img/vboxslowlaunch.gif" alt="好好感受一下吧"></p></li><li><p>设计上颜色总体偏灰，感觉看起来更脏</p></li></ol><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol><li><p>暗色模式（终于有了！！！！！！</p><p><img src="/img/vboxdarkchoice.png" alt="暗色模式选项"></p><p><img src="/img/vboxdark.png" alt="暗色模式效果"></p></li><li><p>虚拟机TPM配置（谢谢你啊</p><p> <img src="/img/vboxtpm.png" alt="TPM配置"></p></li><li><p>DirectX 11的3D加速</p><p> <img src="/img/vboxchangelogdx.png" alt="DirectX 11 3D加速的更新日志"></p></li></ol>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>虚拟机</tag>
-      
-      <tag>VBox</tag>
-      
-      <tag>电脑</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>你应该用什么启动器？</title>
-    <link href="/whichMCLauncherYouNeed/"/>
-    <url>/whichMCLauncherYouNeed/</url>
-    
-    <content type="html"><![CDATA[<h2 id="最有保障"><a href="#最有保障" class="headerlink" title="最有保障"></a>最有保障</h2><h4 id="Minecraft-Launcher-官方启动器"><a href="#Minecraft-Launcher-官方启动器" class="headerlink" title="Minecraft Launcher(官方启动器)"></a>Minecraft Launcher(官方启动器)</h4><p><img src="/img/mclauncher.png"></p><p>虽然有一点要承认，官方启动器在国内经常发抽，但作为官方启动器，可以说最有保障了，并且对小白比较友好</p><h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ol><li>可以实时追踪MC新闻</li><li>可以在启动游戏时自动下载Java</li><li>源有保证，并且官方出品，安全系数最高</li><li>可以启动地下城和基岩版（后期还有可能可以启动传奇）</li><li>跨平台（其他平台只可以玩Java版）</li><li>还可以体验试玩版的MC（顺便一说，试玩模式下旧版MC是玩完整版）</li><li>美观</li><li>方便管理账号皮肤和披风</li><li>可以搞XGP等</li></ol><h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol><li>对于中国地区下载速度过慢</li><li>体积过大</li><li>经常发抽</li><li>Mods管理不方便</li><li>不支持启动器内安装Forge，Fabric，Optifine，Liteloader，Quilt</li><li>有时会出现特别阴间的BUG</li><li>不买就玩不了完整版</li></ol><h2 id="小白必备"><a href="#小白必备" class="headerlink" title="小白必备"></a>小白必备</h2><h4 id="Plain-Craft-Launcher-2-PCL2"><a href="#Plain-Craft-Launcher-2-PCL2" class="headerlink" title="Plain Craft Launcher 2(PCL2)"></a>Plain Craft Launcher 2(PCL2)</h4><p><img src="/img/pcl2.png"></p><p>非常适合小白使用，配置很无脑<em>（注：不是PCL1启动器）</em></p><h5 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h5><ol><li>界面丝滑</li><li>支持下载只在Wiki出现或者单独发布的版本</li><li>Peer to Peer（P2P）联机</li><li>下载游戏速度快（视网络环境而定）</li><li>可以自定义主页（前提你要会XAML）</li><li>可以直接从CurseForge下载Mod</li><li>配置轻松</li><li>可以自动分类游戏</li><li>可以轻松在各.minecraft游戏文件夹切换</li></ol><h5 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h5><ol><li>闭源，无法通过改源码实现自己想要的功能</li><li>不支持从Modrinth下载Mod</li><li>自定义性较差</li><li>只支持Windows</li><li>体验最新功能要花钱买</li></ol><h4 id="BakaXL"><a href="#BakaXL" class="headerlink" title="BakaXL"></a>BakaXL</h4><p><img src="/img/bakaxl.png"></p><p>作为一个很奇葩的启动器，这个启动器有很多有意思的功能</p><h5 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h5><ol><li>核心开源，方便自制启动器，或者让软件更怪</li><li>配置简单</li><li>华丽</li><li>支持Quilt配置</li><li>完全免费</li><li>自定义性强</li><li>多语言</li></ol><h5 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h5><ol><li>占用偏高</li><li>总体风格不适合新版Windows 11</li><li>只支持Windows</li><li>升级强制性</li></ol><h2 id="折腾性"><a href="#折腾性" class="headerlink" title="折腾性"></a>折腾性</h2><p><img src="/img/hmcl.png"></p><h4 id="Hello-Minecraft-Launcher-HMCL"><a href="#Hello-Minecraft-Launcher-HMCL" class="headerlink" title="Hello Minecraft Launcher(HMCL)"></a>Hello Minecraft Launcher(HMCL)</h4><p>作为一直在维护的老国产MC启动器，可以说十分经典了、</p><h5 id="优点-3"><a href="#优点-3" class="headerlink" title="优点"></a>优点</h5><ol><li>完全免费开源</li><li>支持离线联机</li><li>跨平台</li><li>皮肤管理方便</li><li>报错信息详细</li><li>自定义性极高</li></ol><h5 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h5><ol><li>并非完全无脑</li><li>Optifine和Fabric默认无法安装在一起</li><li>界面较为传统，不新奇</li></ol><h4 id="MultiMC"><a href="#MultiMC" class="headerlink" title="MultiMC"></a>MultiMC</h4><p><img src="/img/mmc.png" alt="img"></p><p>国外的优秀启动器，在中国也非常有名</p><h5 id="优点-4"><a href="#优点-4" class="headerlink" title="优点"></a>优点</h5><ol><li>自定义性强</li><li>免费开源（开发者不希望第三方编译）</li><li>版本管理简单</li><li>支持很多其他启动器没有功能</li></ol><h5 id="缺点-4"><a href="#缺点-4" class="headerlink" title="缺点"></a>缺点</h5><ol><li>必须要登陆Mojang或Microsoft账号才可以玩</li><li>体积稍微优点大</li><li>多文件，不方便转移</li></ol><h2 id="WARNING"><a href="#WARNING" class="headerlink" title="WARNING!"></a>WARNING!</h2><p>以下启动器千万别使用，他们都有风险！！</p><ol><li><p><strong>PolyMC</strong></p><p>这是MultiMC的分支，本身很优秀，但是其密钥库发生泄露，作者解散了开发团队，软件已经变得不可信任</p></li></ol>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>Minecraft</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>关于Windows XP源码泄露</title>
-    <link href="/aboutWindowsXPsourceCodeLeak/"/>
-    <url>/aboutWindowsXPsourceCodeLeak/</url>
-    
-    <content type="html"><![CDATA[<h2 id="这次泄露"><a href="#这次泄露" class="headerlink" title="这次泄露"></a>这次泄露</h2><p>其实已经是旧闻了，这些源码很大一部分是从微软对高校的Windows Kernel Research项目来的，其他还有是真的泄露，如比尔盖茨的一些奇怪的私密视频文件，这些源码在4chan上首次公开，实际上已经在黑客私下传了很长时间，一个Youtuber叫NTDEV已经成功将其中的Windows XP源码编译成可以开机的系统，所以这些源码是真的😗</p><p>其实这次不知Windows XP，还有一下内容泄露，只不过完整度不高，泄露者提供的磁力连接中还有这些内容的源码：</p><ul><li>Windows XP SP1</li><li>Windows 2000(基本不可以编译)</li><li>Windows Server 2003</li><li>Windows 10(极少)</li><li>Windows NT(两个版本)</li><li>Windows CE(几个版本)</li><li>MS-DOS(两个版本)</li><li>Xbox</li></ul><h2 id="下载链接"><a href="#下载链接" class="headerlink" title="下载链接"></a>下载链接</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">magnet:?<span class="hljs-attribute">xt</span>=urn:btih:3D8B16242B56A3AAFB8DA7B5FC83EF993EBCF35B<br></code></pre></td></tr></table></figure><p>*建议拿迅雷下载，速度快点</p><p><img src="/img/msleakthings.png" alt="泄露的文件"></p><h2 id="个人试玩"><a href="#个人试玩" class="headerlink" title="个人试玩"></a>个人试玩</h2><p>不会吧不会吧，不会真的有人有现成镜像还要自己编译？！😅</p><p>好吧，其实火绒在我解压源码时疯狂报毒，几个编译源码需要文件全部去世</p><p><img src="/img/hrtowinxp.png" alt="img"></p><h2 id="国产系统？"><a href="#国产系统？" class="headerlink" title="国产系统？"></a>国产系统？</h2><p>当我逛知乎，偶然间让我发现迷幻的评论！</p><p>他们觉得国产系统可以复制里面的代码来完善现在的国产系统</p><p>就…………分享下我对这些评论的观点？！</p><p>Microsoft® Windows®是闭源商业软件，微软拥有其版权，微软也拥有其专利，源码不可以商业使用，不然是违法行为，只可以用于学习用途，当时高校在研究Windows源码时，很多学生都说Windows源码写得很漂亮，很有参考意义</p><p>当然我也发现这些人的出发点是好的，打破美帝垄断，实际上Linux就已经可以做到了，但是国内软件开发商不争气，Linux的国内生态非常差，Windows反而到处都是软件，虽然Linux可以使用Wine运行，但又缩水：兼容性差，另外，国产Linux通常都不会遵守GPL开放系统源代码</p><p>说到这里，我想到Wine通过参考这些源码提高系统兼容性哦🙂~yee</p><p>此外我怀疑到时候搞得不好就会出现一个基于Windows XP源码开发的国产系统（希望永远不会发生</p><p>此外我还发现有很多人希望源码集成到鸿蒙，开发鸿蒙PC版？！</p><p>我只想说啊：小伙子，我看你骨骼精奇，要不到狱里面喝喝茶，住个一段时间，体验一下豪华待遇（包吃包住）</p><h2 id="React-OS的痛"><a href="#React-OS的痛" class="headerlink" title="React OS的痛"></a>React OS的痛</h2><p>现在Windows XP（或者Server 2003）源码泄露，React OS正好是NT 5.2（64为XP，Server 2003内核），现在他们必须证明自己的清白（不是复制Windows源码），必须要服从微软对React OS源码的检查，害~</p><h2 id="告Windows-XP用户"><a href="#告Windows-XP用户" class="headerlink" title="告Windows XP用户"></a>告Windows XP用户</h2><p>我还是劝坚持Windows XP的用户升级系统吧，现在的Windows 7都比Windows XP安全好多（即便延长支持已经结束），最好是上Windows 10的最新版本（老版本不是特别安全，并且还有特别多BUG），如果愿意还可以上Windows 11，Windows XP现在已经是世界上漏洞最多的系统了，黑帽黑客可以通过这些源码找到系统漏洞，从而攻击个人或者企业电脑，特别是ZF电脑（断网电脑也别掉以轻心，毕竟有人论证过断网也可以黑电脑），，，</p><p>要知道，部分系统底层级别的漏洞可是安全软件都救不了的啊！</p><p><img src="/img/114514.png" alt="Homo"></p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>Windows</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>论坛开启！！</title>
-    <link href="/myBbsIsOpenNow/"/>
-    <url>/myBbsIsOpenNow/</url>
-    
-    <content type="html"><![CDATA[<p><del>你没有听错！</del></p><p><del>What_Damon的小论坛，超优体验，超酷外形，免费注册</del></p><p><strong>不要在意上面的话</strong></p><h2 id="What-Damon的小论坛正式对外开放"><a href="#What-Damon的小论坛正式对外开放" class="headerlink" title="What_Damon的小论坛正式对外开放"></a>What_Damon的小论坛正式对外开放</h2><p><del>链接：<strong><a href="https://whatdamonbbs.freeflarum.com/">https://whatdamonbbs.freeflarum.com/</a></strong></del><font color="red">（60天无新内容，已被FreeFlarum清空）</font></p><p>什么？？域名又臭又长？？？</p><p>那么你愿意接受名字不抽但里面特别丑的备用论坛站吗</p><p>链接（除非上面的网站死于胎腹，极其不建议，因为在这我基本不在线，访问前先删除Emoji）：http📎s:&#x2F;&#x2F;da😳mon233.✂️666foru📕m.com&#x2F;</p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>BBS</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Neutrino正式公测了</title>
-    <link href="/neutrino-public-beta/"/>
-    <url>/neutrino-public-beta/</url>
-    
-    <content type="html"><![CDATA[<h1 id="NEUTRINO-Pubilc-β发布"><a href="#NEUTRINO-Pubilc-β发布" class="headerlink" title="NEUTRINO Pubilc β发布"></a>NEUTRINO Pubilc β发布</h1><p>开发了将近3年，从Webworld到Neutrino，UI经过了三次大型蜕变</p><p>AuroraStudio Neutrino正式发布！</p><p><a href="https://jq.qq.com/?_wv=1027&k=Rh6rJTWE">点击此处加入公测</a></p><p>由AuroraStudio呈上</p><p>顺便加两个<code>海报</code></p><p><strong>晴空版</strong></p><p><img src="/img/ASN_PB_QK.png"></p><p><strong>WD版</strong></p><p><img src="/img/ASN_PB_WD.png"></p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>Neutrino</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>B站新视频：👴终于明白Windows 11是缝合怪了</title>
-    <link href="/New-Video-BV1Nu411d7Fi-Bili/"/>
-    <url>/New-Video-BV1Nu411d7Fi-Bili/</url>
-    
-    <content type="html"><![CDATA[<h1 id="New-Video"><a href="#New-Video" class="headerlink" title="New Video!!"></a>New Video!!</h1><p>标题：👴终于明白Windows 11是缝合怪了</p><p>链接：<a href="https://www.bilibili.com/video/BV1Nu411d7Fi/">https://www.bilibili.com/video/BV1Nu411d7Fi/</a></p><p>现场预览：</p><iframe src="//player.bilibili.com/player.html?aid=508721164&bvid=BV1Nu411d7Fi&cid=499057311&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe><p>QR Code:</p><p><img src="/img/QR_BV1Nu411d7Fi.png"></p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>哔哩哔哩</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>对比Debian 11与Fedora 34</title>
-    <link href="/debian11_vs_fedora34/"/>
-    <url>/debian11_vs_fedora34/</url>
-    
-    <content type="html"><![CDATA[<h1 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h1><p>难得玩一次Linux，并且还正式玩了一下Terminal，于是乎，就有了这玩意（感觉逻辑不太对</p><h1 id="Middle"><a href="#Middle" class="headerlink" title="Middle"></a>Middle</h1><h3 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h3><p>Macbook Pro 2011初，更换了SSD</p><p>其他配置按VMware默认来</p><h3 id="系统："><a href="#系统：" class="headerlink" title="系统："></a>系统：</h3><p>Debian 11.2 Codename: bullseyes 64-Bits</p><p>Fedora 34 Workstation（Live CD）64-Bits</p><h3 id="测试："><a href="#测试：" class="headerlink" title="测试："></a>测试：</h3><ol><li><p>安装器</p><p>主要依据安装程序的美观程度，易安装度等评价</p><table><thead><tr><th>安装器</th><th>Debian</th><th align="left">Fedora</th></tr></thead><tbody><tr><td>GRUB美观</td><td>一般</td><td align="left">配色好看，一般</td></tr><tr><td>GRUB易用性</td><td>较低</td><td align="left">较高</td></tr><tr><td>安装UI</td><td>一般</td><td align="left">一般</td></tr><tr><td>试用</td><td>无</td><td align="left">有</td></tr><tr><td>安装速度</td><td>网络安装巨慢</td><td align="left">快</td></tr><tr><td>安装容易度</td><td>一般</td><td align="left">友好</td></tr><tr><td>安装方式</td><td>GUI+TUI</td><td align="left">GUI</td></tr></tbody></table></li><li><p>系统引导</p><table><thead><tr><th>GRUB引导器</th><th>Debian</th><th>Fedora</th></tr></thead><tbody><tr><td>中文支持</td><td>有，但不完全</td><td>无</td></tr><tr><td>壁纸</td><td>有，4:3</td><td>无</td></tr><tr><td>易用性</td><td>OK</td><td>OK</td></tr></tbody></table><table><thead><tr><th>系统引导器</th><th>Debian</th><th>Fedora</th></tr></thead><tbody><tr><td>美观</td><td>差</td><td>好</td></tr><tr><td>错误易处理</td><td>一般</td><td>较差</td></tr></tbody></table></li><li><p>系统桌面</p><table><thead><tr><th>桌面</th><th>Debian</th><th>Fedora</th></tr></thead><tbody><tr><td>多桌面</td><td>支持</td><td>仅GNOME</td></tr><tr><td>GNOME版本</td><td>默认3.38，更新麻烦</td><td>GNOME 40</td></tr><tr><td>动画</td><td>无（可以开启</td><td>有，做得很好</td></tr></tbody></table></li><li><p>应用</p><table><thead><tr><th>应用</th><th>Debian</th><th>Fedora</th></tr></thead><tbody><tr><td>格式</td><td>.deb  .udeb</td><td>.rpm</td></tr><tr><td>兼容性</td><td>一般</td><td>较好</td></tr><tr><td>终端</td><td>一般</td><td>一般</td></tr><tr><td>应用商店</td><td>无法访问</td><td>有，但软件较少</td></tr><tr><td>预装游戏</td><td>多</td><td>无</td></tr><tr><td>预装应用量</td><td>很多</td><td>基础</td></tr></tbody></table></li><li><p>可玩性</p><table><thead><tr><th>可玩性</th><th>Debian</th><th>Fedora</th></tr></thead><tbody><tr><td>sudoers</td><td>不设置不可用</td><td>默认可用</td></tr><tr><td>su</td><td>可用</td><td>可用</td></tr><tr><td>root账户</td><td>需设置</td><td>(UNKNOW)</td></tr></tbody></table></li><li><p>稳定性</p><table><thead><tr><th>稳定性</th><th>Debian</th><th>Fedora</th></tr></thead><tbody><tr><td>错误概率</td><td>低</td><td>中</td></tr></tbody></table></li><li><p>美观度</p><table><thead><tr><th>美观</th><th>Debian</th><th>Fedora</th></tr></thead><tbody><tr><td>活动</td><td>一般（GNOME3）</td><td>好看（GNOME40）</td></tr><tr><td>主题</td><td>较少（需安装其他桌面）</td><td>1个（GNOME自带）</td></tr></tbody></table></li></ol><h1 id="End"><a href="#End" class="headerlink" title="End"></a>End</h1><p>以上为个人测试总结，仅供参考</p><hr><p>你可能会问deepin或者其他发行版呢？</p><p>我会回答：大多Linux发行版都是基于那俩系统开发（Fedora容易下载，Red Hat麻烦，这里就用了也是比较有代表性的Fedora）</p><p>例如Ubuntu、deepin等基于Debian，而Cent OS等基于Red Hat(这里是Fedora)，其实我建议都可以用用</p><p>&#x2F;&#x2F;实在懒得配图了</p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>Linux</tag>
+      <tag>EPL</tag>
       
     </tags>
     
@@ -249,6 +116,8 @@
     
     
     <tags>
+      
+      <tag>Software</tag>
       
       <tag>Windows</tag>
       
@@ -268,6 +137,8 @@
     
     
     <tags>
+      
+      <tag>Software</tag>
       
       <tag>Windows</tag>
       
@@ -290,45 +161,7 @@
       
       <tag>Windows</tag>
       
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>史上最强哔哩哔哩客户端的问题</title>
-    <link href="/BiliProblems/"/>
-    <url>/BiliProblems/</url>
-    
-    <content type="html"><![CDATA[<blockquote><p><strong>哔哩项目本质上是开发者云之幻拿来练手的项目，现在哔哩已经进入随缘更新阶段，体验肯定越来越差，请移步B站官方客户端！</strong></p></blockquote><hr><h3 id="注"><a href="#注" class="headerlink" title="注"></a>注</h3><p>这些问题皆来自开源后的**<u><em>第5个版本</em></u><strong>，来自GITHUB的</strong>已编译**版本不确定在后面版本是否会出现</p><h2 id="问题概览"><a href="#问题概览" class="headerlink" title="问题概览"></a>问题概览</h2><ol><li>AV与BV显示不统一</li><li>快进过度NB</li><li>不明圆角（已经上报，希望不会收到没有答案就Close的邮件）</li><li>自己关注自己</li><li>评论没有马上出现</li></ol><h2 id="详细"><a href="#详细" class="headerlink" title="详细"></a>详细</h2><h4 id="1-AV与BV显示不统一"><a href="#1-AV与BV显示不统一" class="headerlink" title="1. AV与BV显示不统一"></a>1. AV与BV显示不统一</h4><p>DO YOU UNDERSTAND?</p><p>一个奇葩组合！</p><p>当然我不明白为什么要少搞一个”AV”上去？</p><h4 id="2-快进过度NB"><a href="#2-快进过度NB" class="headerlink" title="2. 快进过度NB"></a>2. 快进过度NB</h4><p>当你看视频到一半时，想快进</p><p>结果</p><p>马上视频**<u>END</u>**</p><p>这个不清楚云之幻怎么表态，不知道会不会改</p><h4 id="3-不明圆角"><a href="#3-不明圆角" class="headerlink" title="3. 不明圆角"></a>3. 不明圆角</h4><p>这个已经修复了，作者当时质疑我，后来才发现问题，这个问题真的只出现在第5个版本</p><h4 id="4-自己关注自己"><a href="#4-自己关注自己" class="headerlink" title="4.自己关注自己"></a>4.自己关注自己</h4><p>虽然没有什么用，最少要学学网页端的样子</p><h4 id="5-评论没有马上出现"><a href="#5-评论没有马上出现" class="headerlink" title="5.评论没有马上出现"></a>5.评论没有马上出现</h4><p>你发了一条评论，结果你找了半天都没有找的你发的评论，这个不太好吧。。。。。。</p><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>我只反馈了 3</p><p>这个博客发布的比较晚，发布时已经修复了（上面的日期只是创建日期罢了）</p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>哔哩哔哩</tag>
-      
-      <tag>UWP</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>下载页初步完成搭设</title>
-    <link href="/DownloadsPageIsOkNow/"/>
-    <url>/DownloadsPageIsOkNow/</url>
-    
-    <content type="html"><![CDATA[<p><del>dedededede…,,Villager News</del></p><p><del>Breaking NEWS!</del></p><h1 id="本网站正式上线了下载功能！"><a href="#本网站正式上线了下载功能！" class="headerlink" title="本网站正式上线了下载功能！"></a>本网站正式上线了下载功能！</h1><p>对</p><h3 id="支持直链下载！"><a href="#支持直链下载！" class="headerlink" title="支持直链下载！"></a>支持直链下载！</h3><p>部分文件已经换直链发布，按照我的原则，50MB以下文件直链，100MB以下文件蓝奏云，500MB以下文件以阿里云盘为主天翼云盘为辅，500MB以上文件阿里云盘为主百度网盘为辅，少数文件传微云（后面如果条件允许会调整）</p><h3 id="此页删除了未完成标识"><a href="#此页删除了未完成标识" class="headerlink" title="此页删除了未完成标识"></a>此页删除了未完成标识</h3><p>这怀疑是最明显的下载页初步完工的标识了</p><p>（这不是废话吗？！）</p><h3 id="加了一个文件：鲁大师精简版"><a href="#加了一个文件：鲁大师精简版" class="headerlink" title="加了一个文件：鲁大师精简版"></a>加了一个文件：鲁大师精简版</h3><p>对，加了个 <del>陪葬品</del> 新文件 ，不然这个正式上线的下载页不像样！</p><p>关于这个软件我不一定会再写一篇具体说明</p><p>希望大家喜欢（稳定性上求反馈）</p><h3 id="未来计划"><a href="#未来计划" class="headerlink" title="未来计划"></a>未来计划</h3><h5 id="1-美化"><a href="#1-美化" class="headerlink" title="1.美化"></a>1.美化</h5><p>目前这个页面还是太丑了，到时候我会加入一点玩意使其更加美观</p><h5 id="2-描述"><a href="#2-描述" class="headerlink" title="2.描述"></a>2.描述</h5><p>目前还是太草率了，详细信息太少了</p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>ThisBlog!</tag>
+      <tag>Experiences</tag>
       
     </tags>
     
@@ -347,7 +180,7 @@
     
     <tags>
       
-      <tag>经验分享</tag>
+      <tag>Experiences</tag>
       
     </tags>
     
@@ -356,7 +189,7 @@
   
   
   <entry>
-    <title>转移Hexo</title>
+    <title>转移到Hexo</title>
     <link href="/To-Hexo/"/>
     <url>/To-Hexo/</url>
     
@@ -366,28 +199,7 @@
     
     <tags>
       
-      <tag>Other</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>诶诶，怎么没人要看Damon OS 2.0的主要内容啊？</title>
-    <link href="/damonos2no/"/>
-    <url>/damonos2no/</url>
-    
-    <content type="html"><![CDATA[<p>这是宣传片：</p><iframe src="//player.bilibili.com/player.html?aid=91053658&bvid=BV1bj411f7sf&cid=155483112&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>哔哩哔哩</tag>
-      
-      <tag>DamonOS</tag>
+      <tag>ThisBlog</tag>
       
     </tags>
     
@@ -406,7 +218,9 @@
     
     <tags>
       
-      <tag>软件推荐</tag>
+      <tag>Software</tag>
+      
+      <tag>Recommendation</tag>
       
     </tags>
     
@@ -425,30 +239,9 @@
     
     <tags>
       
-      <tag>易语言</tag>
+      <tag>Software</tag>
       
-      <tag>小工具</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>关于PanDownload事件</title>
-    <link href="/aboutpandownloadgb/"/>
-    <url>/aboutpandownloadgb/</url>
-    
-    <content type="html"><![CDATA[<h1 id="主"><a href="#主" class="headerlink" title="主"></a>主</h1><p>这段时间，PanDownload开发者被捕，目前pandownload的所有网站<br><a href="http://www.pandownload.com/">http://www.pandownload.com</a><br><a href="http://www.baiduwp.com/">http://www.baiduwp.com</a><br>还有有一个安卓端网站<br>全部下线<br>PanDownload的确是一款优秀的软件，它给许多用户带来放便利，而PanDownload开发者被捕，软件停用，无疑是给用户重大的打击<br>具体为什么现在大家开始投靠百度网盘第三方客户端，最主要百度在对他们旗下的百度网盘缩水！<br>百度网盘首次上线时虽然只有几GB储存空间，但不限速，之后，百度大方的把网盘免费扩充至5TB，但好景不长，百度网盘开始缩水，首先是非超级会员开始限速，空间缩水到2TB,这还能再忍忍，但2018年，百度又对用户来了一个下马威：2019年如果从未登录过百度网盘，2020年就把空间缩水至100GB，牙膏吸得这么厉害，用户已经忍不了了，PanDownload一时间名气大涨<br>今天，PanDownload已经无法登录，源码也很难找到，百度网盘官方还大肆宣传自己的战绩</p><h1 id="替代品"><a href="#替代品" class="headerlink" title="替代品"></a>替代品</h1><p>这里我再告诉大家接下来能用什么代替</p><h2 id="1-BND2-Baidu-Netdisk-Downloader-2"><a href="#1-BND2-Baidu-Netdisk-Downloader-2" class="headerlink" title="1. BND2(Baidu Netdisk Downloader 2)"></a>1. BND2(Baidu Netdisk Downloader 2)</h2><p>这是除了PanDownload外我最喜欢的，当然，适合自己的才是最好的</p><h2 id="2-Proxyee-down"><a href="#2-Proxyee-down" class="headerlink" title="2. Proxyee-down"></a>2. Proxyee-down</h2><p>这个我还没有体验过但可以试试</p><h2 id="3-速盘"><a href="#3-速盘" class="headerlink" title="3. 速盘"></a>3. 速盘</h2><p>没好好用过，但速度应该挺快的</p><h2 id="4-Motrix"><a href="#4-Motrix" class="headerlink" title="4. Motrix"></a>4. Motrix</h2><p>速度一般吧，当然可以当普通的下载器使用</p><span id="more"></span><p>我不提供官网链接，网上自己下哟😝</p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>软件推荐</tag>
-      
-      <tag>Other</tag>
+      <tag>EPL</tag>
       
     </tags>
     
@@ -467,7 +260,9 @@
     
     <tags>
       
-      <tag>软件推荐</tag>
+      <tag>Software</tag>
+      
+      <tag>Recommendation</tag>
       
     </tags>
     
@@ -505,7 +300,9 @@
     
     <tags>
       
-      <tag>软件推荐</tag>
+      <tag>Software</tag>
+      
+      <tag>Recommendation</tag>
       
     </tags>
     
@@ -537,7 +334,7 @@
     <link href="/welcome/"/>
     <url>/welcome/</url>
     
-    <content type="html"><![CDATA[<h2 id="这里是What-Damon的Blog博客哟"><a href="#这里是What-Damon的Blog博客哟" class="headerlink" title="这里是What_Damon的Blog博客哟~~~~"></a>这里是What_Damon的Blog博客哟~~~~</h2><p>肥肠欢迎来到我滴博客😜<br>请尽情滴浏览呀😉</p><h2 id="本站须知"><a href="#本站须知" class="headerlink" title="本站须知"></a>本站须知</h2><h5 id="评论使用："><a href="#评论使用：" class="headerlink" title="评论使用："></a>评论使用：</h5><ul><li>评论功能使用了 Giscus！请遵守 <a href="https://docs.github.com/en/site-policy/github-terms/github-community-guidelines">Github Community Guidelines</a></li></ul><h5 id="文章投稿："><a href="#文章投稿：" class="headerlink" title="文章投稿："></a>文章投稿：</h5><p>光凭我一个人脑补文章肯定不太行，所以我决定允许各位投稿</p><p>投稿内容发布至<a href="mailto:&#x77;&#x68;&#97;&#x74;&#x64;&#97;&#x6d;&#111;&#x6e;&#x40;&#x64;&#x61;&#x6d;&#x6f;&#x6e;&#x32;&#x33;&#51;&#x2e;&#116;&#x6f;&#112;">&#x77;&#x68;&#97;&#x74;&#x64;&#97;&#x6d;&#111;&#x6e;&#x40;&#x64;&#x61;&#x6d;&#x6f;&#x6e;&#x32;&#x33;&#51;&#x2e;&#116;&#x6f;&#112;</a>，如果您投稿了文章，代表您允许我使用<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh">CC BY-SA 4.0 协议</a>来发布您的文章，如不希望我署您的名称，或者不希望使用CC BY 4.0协议等，请额外说明！</p><ol><li>内容必须是有关<strong>科技数码</strong>的</li><li>不可以带有<strong>色、黄、恐、俗、暴</strong>等内容</li><li>不可以<strong>贬低某人</strong>，或者引战</li><li>不可<strong>发布无用内容</strong></li><li>文章<strong>封面自己制作</strong></li></ol>]]></content>
+    <content type="html"><![CDATA[<h2 id="这里是What-Damon的Blog博客哟"><a href="#这里是What-Damon的Blog博客哟" class="headerlink" title="这里是What_Damon的Blog博客哟~~~~"></a>这里是What_Damon的Blog博客哟~~~~</h2><p>肥肠欢迎来到我滴博客😜<br>请尽情滴浏览呀😉</p><h2 id="本站须知"><a href="#本站须知" class="headerlink" title="本站须知"></a>本站须知</h2><h5 id="评论使用："><a href="#评论使用：" class="headerlink" title="评论使用："></a>评论使用：</h5><ul><li>评论功能使用了 Giscus！请遵守 <a href="https://docs.github.com/en/site-policy/github-terms/github-community-guidelines">Github Community Guidelines</a></li></ul>]]></content>
     
     
     
