@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://damon233.js.org/atom.xml
