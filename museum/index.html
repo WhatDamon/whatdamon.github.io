@@ -35,10 +35,90 @@
         }
       }
     </script>
-    <script type="module" crossorigin src="/museum/assets/index-CnYdgVEi.js"></script>
+    <script type="module" crossorigin src="/museum/assets/index-FsvuCdGj.js"></script>
     <link rel="stylesheet" crossorigin href="/museum/assets/index-smrS16zN.css">
   </head>
   <body>
+    <!-- Browser version too low warning -->
+    <div
+      id="browser-warning"
+      hidden
+      role="alert"
+      style="
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+        color: #fff;
+        font: 14px/1.6 sans-serif;
+        padding: 2rem;
+        text-align: center;
+      "
+    >
+      <div>
+        <h2 style="margin: 0 0 0.5em; font-size: 1.4em">
+          浏览器版本过低 / Browser too old
+        </h2>
+        <p style="margin: 0 0 1em; color: #999">
+          本站使用了现代 Web 技术，您的浏览器已不再受支持。<br />
+          请升级至最新版 Chrome、Firefox 或 Safari。<br /><br />
+          This site uses modern web technologies. Please upgrade your browser.
+        </p>
+        <div
+          id="browser-warning-detail"
+          style="color: #666; font-size: 0.9em"
+        ></div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var el = document.getElementById("browser-warning");
+        var detail = document.getElementById("browser-warning-detail");
+        if (!el) return;
+
+        var hasESM =
+          "noModule" in document.createElement("script") ||
+          (typeof HTMLScriptElement !== "undefined" &&
+            typeof HTMLScriptElement.supports === "function" &&
+            HTMLScriptElement.supports("module"));
+
+        if (!hasESM) {
+          el.hidden = false;
+          el.style.display = "flex";
+          if (detail)
+            detail.textContent =
+              "检测到不支持 ES Modules 的浏览器（如 Internet Explorer）。请升级浏览器。";
+          return;
+        }
+
+        var missing = [];
+        if (typeof Promise === "undefined") missing.push("Promise");
+        if (typeof fetch === "undefined") missing.push("fetch()");
+        if (typeof Map === "undefined" || typeof Set === "undefined")
+          missing.push("Map/Set");
+        if (typeof MutationObserver === "undefined")
+          missing.push("MutationObserver");
+        if (typeof DOMParser === "undefined") missing.push("DOMParser");
+
+        if (missing.length > 0) {
+          el.hidden = false;
+          el.style.display = "flex";
+          if (detail) {
+            detail.textContent = "缺少关键 API: " + missing.join(", ");
+            var p = document.createElement("p");
+            p.style.cssText = "margin-top:1em;color:#999";
+            p.textContent =
+              "请升级浏览器至最新版本。Please upgrade your browser.";
+            detail.append(p);
+          }
+        }
+      })();
+    </script>
+
     <main>
       <div class="window" style="width: 660px; margin: 40px auto">
         <div class="title-bar">

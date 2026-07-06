@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /museum/0$
+Disallow: /museum/0-egg$
 
 Sitemap: https://damon233.js.org/atom.xml

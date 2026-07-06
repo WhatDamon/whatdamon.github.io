@@ -1,38 +1,33 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-<title></title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100%; background: #000; }
-</style>
-</head>
-<body>
-<script>
-var path = window.location.pathname + window.location.search;
-
-// Prevent redirect loops: if we've already tried this redirect,
-// go directly to the target SPA root instead of looping
-if (sessionStorage.getItem("_404_loop_guard") === path) {
-  // Loop detected: go directly to the SPA root without setting redirect
-  sessionStorage.removeItem("_404_loop_guard");
-  sessionStorage.removeItem("redirect");
-  if (path.startsWith("/museum/")) {
-    location.replace("/museum/");
-  } else {
-    location.replace("/");
-  }
-} else {
-  sessionStorage.setItem("_404_loop_guard", path);
-  sessionStorage.setItem("redirect", path);
-  if (path.startsWith("/museum/")) {
-    location.replace("/museum/");
-  } else {
-    location.replace("/");
-  }
-}
-</script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        background: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      var p = location.pathname + location.search;
+      if (sessionStorage.getItem("_404g") === p) {
+        sessionStorage.removeItem("_404g");
+        sessionStorage.removeItem("r");
+        location.replace(p.startsWith("/museum/") ? "/museum/" : "/");
+      } else {
+        sessionStorage.setItem("_404g", p);
+        sessionStorage.setItem("r", p);
+        location.replace(p.startsWith("/museum/") ? "/museum/" : "/");
+      }
+    </script>
+  </body>
 </html>

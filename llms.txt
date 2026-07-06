@@ -2,21 +2,17 @@
 
 > What_Damon 的个人网站，塞满了杂七杂八的东西。
 
-## 关于
+## About
 
-个人技术博客，主要内容包括软件开发、工具推荐、项目分享、macOS/Windows 软件折腾记录。
+A personal blog. Content includes, but is not limited to, development, tinkering, technology, rants, and recommendations. 
 
-## 链接
+## Pages
 
-- [首页](https://damon233.js.org/)
-- [关于](https://damon233.js.org/#about)
-- [技术博客](https://damon233.js.org/)
-- [软件博物馆](https://damon233.js.org/museum/)
-- [GitHub](https://github.com/whatdamon)
-- [B站](https://space.bilibili.com/476009997)
+- [Homepage](https://damon233.js.org/)
+- [About](https://damon233.js.org/about)
+- [Software Museum](https://damon233.js.org/museum/)
 
-## 技术栈
+## Optional
 
-- 前端: TypeScript, Vite, Less
-- 博客: Markdown, Marked, KaTeX, Mermaid, Highlight.js
-- 部署: GitHub Pages
+- [GitHub](https://github.com/WhatDamon)
+- [Bilibili](https://space.bilibili.com/351191993)

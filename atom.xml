@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://whatdamon.github.io</id>
+    <id>https://damon233.js.org</id>
     <title>What_Damon 的窝</title>
-    <updated>2026-07-06T11:39:18.746Z</updated>
-    <generator>generate-feed.ts</generator>
+    <updated>2026-07-06T17:49:05.354Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
     <author>
         <name>What_Damon</name>
-        <uri>https://whatdamon.github.io</uri>
+        <uri>https://damon233.js.org</uri>
     </author>
-    <link rel="alternate" href="https://whatdamon.github.io"/>
-    <link rel="self" href="https://whatdamon.github.io/atom.xml"/>
+    <link rel="alternate" href="https://damon233.js.org"/>
+    <link rel="self" href="https://damon233.js.org/atom.xml"/>
     <subtitle>What_Damon 的个人博客</subtitle>
     <rights>All rights reserved 2026, What_Damon</rights>
     <entry>
         <title type="html"><![CDATA[macOS 虚拟机跨软件迁移指南]]></title>
-        <id>https://whatdamon.github.io/post/osxVmMigrate</id>
-        <link href="https://whatdamon.github.io/post/osxVmMigrate"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/osxVmMigrate.png" type="image/png"/>
+        <id>https://damon233.js.org/post/osxVmMigrate</id>
+        <link href="https://damon233.js.org/post/osxVmMigrate"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/osxVmMigrate.png" type="image/png"/>
         <updated>2026-07-05T05:54:23.000Z</updated>
         <content type="html"><![CDATA[<h1>序</h1>
 <h2>前情提要</h2>
@@ -146,13 +146,12 @@ echo &#39;[MachineIdentifer 的 Base64]&#39; | base64 -D &gt; MachineIdentifer
 <p>[^1]: <a href="https://developer.apple.com/documentation/virtualization/running-gui-linux-in-a-virtual-machine-on-a-mac">Running GUI Linux in a virtual machine on a Mac | Apple Developer Documentation</a></p>
 ]]></content>
         <published>2026-07-05T05:54:23.000Z</published>
-        <rights>License: cc-by-4.0</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[为什么我选择 Pi Agent]]></title>
-        <id>https://whatdamon.github.io/post/whyPiAgent</id>
-        <link href="https://whatdamon.github.io/post/whyPiAgent"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/whypiagent.png" type="image/png"/>
+        <id>https://damon233.js.org/post/whyPiAgent</id>
+        <link href="https://damon233.js.org/post/whyPiAgent"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/whypiagent.png" type="image/png"/>
         <updated>2026-07-02T10:10:01.000Z</updated>
         <content type="html"><![CDATA[<h1>序</h1>
 <p>2026 年初，一个名叫 Pi 智能体在开发者社区大受欢迎，在 OpenRouter 榜单中排名居高不下。它的作者 Mario Zechner（他也是知名游戏引擎 libGDX 的开发者）因&quot;讨厌所有现有的 Coding Agent&quot;，自己写了一个。结果它不仅大受开发者社区的欢迎，在 GitHub 夺得数万颗 Star，并且还成为了 OpenClaw 这个驰名项目的核心</p>
@@ -351,13 +350,12 @@ Pi 是这样一款智能体，它毫无疑问是我最喜欢的用于 DevOps、�
 [^4]: <a href="https://dev.to/urvvil/i-tried-pi-after-watching-its-founder-explain-why-he-quit-claude-code-2oef">I tried Pi after watching its founder explain why he quit Claude Code - DEV Community</a></p>
 ]]></content>
         <published>2026-07-02T10:10:01.000Z</published>
-        <rights>License: cc-by-4.0</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[在 macOS 应用上使用液态玻璃图标保姆级教程]]></title>
-        <id>https://whatdamon.github.io/post/useLiquidGlassIcon</id>
-        <link href="https://whatdamon.github.io/post/useLiquidGlassIcon"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/useLiquidGlassIcon.png" type="image/png"/>
+        <id>https://damon233.js.org/post/useLiquidGlassIcon</id>
+        <link href="https://damon233.js.org/post/useLiquidGlassIcon"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/useLiquidGlassIcon.png" type="image/png"/>
         <updated>2025-10-18T16:21:00.000Z</updated>
         <content type="html"><![CDATA[<h1>序言</h1>
 <p>2025 年苹果发布了 macOS Tahoe，引入了新的液态玻璃设计，同时也对图标进行了升级，可以进行更多的自定义，但是对于非 Xcode 项目而言，要成功应用这一套新的图标有不少阻碍，本文介绍一种方案，可以帮助大部分非 Xcode 项目在 macOS 上也可以用上液态玻璃图标。</p>
@@ -460,12 +458,11 @@ Pi 是这样一款智能体，它毫无疑问是我最喜欢的用于 DevOps、�
 <p><img src="/img/inside_assetsCar.png" alt="Assets.car 内的资源，使用 Asset Catalog Tinkerer 工具"></p>
 ]]></content>
         <published>2025-10-18T16:21:00.000Z</published>
-        <rights>All rights reserved 2025, What_Damon</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[关于部分文章下架须知]]></title>
-        <id>https://whatdamon.github.io/post/someArticlesTakenDownNotice</id>
-        <link href="https://whatdamon.github.io/post/someArticlesTakenDownNotice"/>
+        <id>https://damon233.js.org/post/someArticlesTakenDownNotice</id>
+        <link href="https://damon233.js.org/post/someArticlesTakenDownNotice"/>
         <updated>2025-10-17T19:07:54.000Z</updated>
         <content type="html"><![CDATA[<h2>发生什么了？</h2>
 <p>如你所见，我下架了大量本站的文章。</p>
@@ -485,13 +482,12 @@ Pi 是这样一款智能体，它毫无疑问是我最喜欢的用于 DevOps、�
 <p>总之，事已至此，本站的改革之路已经开始，其他的不用再关注，尽我所能让量的积累实现质的变化，也算是我对这个快节奏的互联网一个小小的贡献吧......</p>
 ]]></content>
         <published>2025-10-17T19:07:54.000Z</published>
-        <rights>All rights reserved 2025, What_Damon</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[一切都变了，关于 VirtualBox 7.1.0 BETA1]]></title>
-        <id>https://whatdamon.github.io/post/everythingChangeAtVBox710Beta1</id>
-        <link href="https://whatdamon.github.io/post/everythingChangeAtVBox710Beta1"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/vbox710cover.png" type="image/png"/>
+        <id>https://damon233.js.org/post/everythingChangeAtVBox710Beta1</id>
+        <link href="https://damon233.js.org/post/everythingChangeAtVBox710Beta1"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/vbox710cover.png" type="image/png"/>
         <updated>2024-08-11T09:56:38.000Z</updated>
         <content type="html"><![CDATA[<h1>序</h1>
 <blockquote>
@@ -535,12 +531,11 @@ Pi 是这样一款智能体，它毫无疑问是我最喜欢的用于 DevOps、�
 <p>下载链接：<a href="https://download.virtualbox.org/virtualbox/7.1.0_BETA1">https://download.virtualbox.org/virtualbox/7.1.0_BETA1</a></p>
 ]]></content>
         <published>2024-08-11T09:56:38.000Z</published>
-        <rights>All rights reserved 2024, What_Damon</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[中国开发社区的问题思考]]></title>
-        <id>https://whatdamon.github.io/post/chinaDevCommunityProblems</id>
-        <link href="https://whatdamon.github.io/post/chinaDevCommunityProblems"/>
+        <id>https://damon233.js.org/post/chinaDevCommunityProblems</id>
+        <link href="https://damon233.js.org/post/chinaDevCommunityProblems"/>
         <updated>2024-08-09T14:55:28.000Z</updated>
         <content type="html"><![CDATA[<h2>免责声明</h2>
 <ul>
@@ -584,13 +579,12 @@ Pi 是这样一款智能体，它毫无疑问是我最喜欢的用于 DevOps、�
 [^4]: <a href="https://meta.appinn.net/t/topic/80049">统信前身深度科技前 cto 锐评统信西装事件 - 闲聊灌水 - 小众软件官方论坛</a></p>
 ]]></content>
         <published>2024-08-09T14:55:28.000Z</published>
-        <rights>All rights reserved 2024, What_Damon</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[曾经的神级语言——易语言的陨落]]></title>
-        <id>https://whatdamon.github.io/post/eplNotAll</id>
-        <link href="https://whatdamon.github.io/post/eplNotAll"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/eplnope.png" type="image/png"/>
+        <id>https://damon233.js.org/post/eplNotAll</id>
+        <link href="https://damon233.js.org/post/eplNotAll"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/eplnope.png" type="image/png"/>
         <updated>2022-12-18T01:57:16.000Z</updated>
         <content type="html"><![CDATA[<h2>啥是易语言</h2>
 <p>易语言（EPL）是一门以中文作为程序代码编程语言，其以“易”著称，创始人为吴涛。易语言早期版本的名字为E语言，也通常代指与之对应的集成开发环境。其最早的版本的发布可追溯至 2000 年 9 月 11 日。创造易语言的初衷是进行用中文来编写程序的实践，方便中国人以中国人的思维编写程序，并不用再去学习西方思维。易语言的诞生极大的降低了编程的门槛和学习的难度。从 2000 年以来，易语言已经发展到一定的规模，功能上、用户数量上都十分可观。</p>
@@ -692,13 +686,12 @@ Pi 是这样一款智能体，它毫无疑问是我最喜欢的用于 DevOps、�
 <p><img src="/img/epl_thehope.jpg" alt="《 希 望 》"></p>
 ]]></content>
         <published>2022-12-18T01:57:16.000Z</published>
-        <rights>All rights reserved 2022, What_Damon</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[为正式版 Windows 11 安装新 Notepad（记事本）]]></title>
-        <id>https://whatdamon.github.io/post/NewNotepadInstall_W11S</id>
-        <link href="https://whatdamon.github.io/post/NewNotepadInstall_W11S"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/ntptitle.png" type="image/png"/>
+        <id>https://damon233.js.org/post/NewNotepadInstall_W11S</id>
+        <link href="https://damon233.js.org/post/NewNotepadInstall_W11S"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/ntptitle.png" type="image/png"/>
         <updated>2021-12-11T16:01:53.000Z</updated>
         <content type="html"><![CDATA[<blockquote>
 <p>内容已经过时！</p>
@@ -745,13 +738,12 @@ Pi 是这样一款智能体，它毫无疑问是我最喜欢的用于 DevOps、�
 <p>虽然有中文，但我不知道怎么安装，如果你是英语渣，还是别用了，Dev 渠道在 Microsoft Store 直接安装</p>
 ]]></content>
         <published>2021-12-11T16:01:53.000Z</published>
-        <rights>All rights reserved 2021, What_Damon</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[为正式版 Windows 11 安装新 Media Player]]></title>
-        <id>https://whatdamon.github.io/post/NewMediaPlayerInstall_W11S</id>
-        <link href="https://whatdamon.github.io/post/NewMediaPlayerInstall_W11S"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/wmpnew.png" type="image/png"/>
+        <id>https://damon233.js.org/post/NewMediaPlayerInstall_W11S</id>
+        <link href="https://damon233.js.org/post/NewMediaPlayerInstall_W11S"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/wmpnew.png" type="image/png"/>
         <updated>2021-11-20T16:39:07.000Z</updated>
         <content type="html"><![CDATA[<blockquote>
 <p>内容已经过时！</p>
@@ -796,13 +788,12 @@ Pi 是这样一款智能体，它毫无疑问是我最喜欢的用于 DevOps、�
 <p>本软件会覆盖 Groove Music，但不会覆盖经典版本的 WMP，并且目前还没法安装中文，由于还在早期阶段，存在不少 BUG，并且目前视频播放还没有做好，体验可能不如 VLC 这些播放器</p>
 ]]></content>
         <published>2021-11-20T16:39:07.000Z</published>
-        <rights>All rights reserved 2021, What_Damon</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[升级到 Windows 11 后黑屏死机：WDF VIOLATION]]></title>
-        <id>https://whatdamon.github.io/post/UpToWin11WithStopCode-WDF-VIOLATION</id>
-        <link href="https://whatdamon.github.io/post/UpToWin11WithStopCode-WDF-VIOLATION"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/bsodwdfviolation.png" type="image/png"/>
+        <id>https://damon233.js.org/post/UpToWin11WithStopCode-WDF-VIOLATION</id>
+        <link href="https://damon233.js.org/post/UpToWin11WithStopCode-WDF-VIOLATION"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/bsodwdfviolation.png" type="image/png"/>
         <updated>2021-10-05T13:39:53.000Z</updated>
         <content type="html"><![CDATA[<h1>Begin</h1>
 <p>2021 年 10 月 5 日，Windows 11 21H1 正式发布，很多人都进行了更新，我也一样[doge]</p>
@@ -852,13 +843,12 @@ Pi 是这样一款智能体，它毫无疑问是我最喜欢的用于 DevOps、�
 <p><a href="https://jingyan.baidu.com/article/fd8044fa0bf3085030137a79.html">WDF VIOLATION 你的电脑遇到问题，需要重新启动-百度经验 (baidu.com)</a></p>
 ]]></content>
         <published>2021-10-05T13:39:53.000Z</published>
-        <rights>All rights reserved 2021, What_Damon</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[蓝奏云链接无法访问？不存在的！]]></title>
-        <id>https://whatdamon.github.io/post/lanzou-share-error</id>
-        <link href="https://whatdamon.github.io/post/lanzou-share-error"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/lanzou-share-error.png" type="image/png"/>
+        <id>https://damon233.js.org/post/lanzou-share-error</id>
+        <link href="https://damon233.js.org/post/lanzou-share-error"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/lanzou-share-error.png" type="image/png"/>
         <updated>2021-08-23T05:44:12.000Z</updated>
         <content type="html"><![CDATA[<h1>序</h1>
 <p>或许你遇到过蓝奏云链接无法访问，对于我老说，不存在的！</p>
@@ -884,13 +874,12 @@ Pi 是这样一款智能体，它毫无疑问是我最喜欢的用于 DevOps、�
 <p>总而言之，网盘分享，链接多为好</p>
 ]]></content>
         <published>2021-08-23T05:44:12.000Z</published>
-        <rights>All rights reserved 2021, What_Damon</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[不想花钱买新版 Bandizip，试试这两款压缩软件]]></title>
-        <id>https://whatdamon.github.io/post/bxmbandizipshi2apptj-1</id>
-        <link href="https://whatdamon.github.io/post/bxmbandizipshi2apptj-1"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/bzipmon.png" type="image/png"/>
+        <id>https://damon233.js.org/post/bxmbandizipshi2apptj-1</id>
+        <link href="https://damon233.js.org/post/bxmbandizipshi2apptj-1"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/bzipmon.png" type="image/png"/>
         <updated>2020-04-17T05:37:03.000Z</updated>
         <content type="html"><![CDATA[<blockquote>
 <p>文章在 2026 年进行了时效性更新</p>
@@ -913,13 +902,12 @@ UI 真的，相当好看（对于我的审美）
 <p>当然 7zip、Nanazip 等也不错，适合自己才是最好的哟😶</p>
 ]]></content>
         <published>2020-04-17T05:37:03.000Z</published>
-        <rights>All rights reserved 2020, What_Damon</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[营销号生成器 - 本地版]]></title>
-        <id>https://whatdamon.github.io/post/yxhscqbdtool</id>
-        <link href="https://whatdamon.github.io/post/yxhscqbdtool"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/yxh.png" type="image/png"/>
+        <id>https://damon233.js.org/post/yxhscqbdtool</id>
+        <link href="https://damon233.js.org/post/yxhscqbdtool"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/yxh.png" type="image/png"/>
         <updated>2020-04-16T12:08:50.000Z</updated>
         <content type="html"><![CDATA[<p>额。。。
 这段时间（指 2020 年 4 月）营销号生成器可出了名，但这只是一个网站，在无网环境压根无法体验，使用，我做了一个 Windows 本地版的，甚至可以在 Windows 98 使用哟（易语言特性）🙃
@@ -929,13 +917,12 @@ UI 真的，相当好看（对于我的审美）
 源码：<a href="https://lanzous.com/ibi4szg">https://lanzous.com/ibi4szg</a></p>
 ]]></content>
         <published>2020-04-16T12:08:50.000Z</published>
-        <rights>All rights reserved 2020, What_Damon</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[推荐两款优秀的系统清理软件]]></title>
-        <id>https://whatdamon.github.io/post/cleanerapptj-1</id>
-        <link href="https://whatdamon.github.io/post/cleanerapptj-1"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/cleanerapptj-1.png" type="image/png"/>
+        <id>https://damon233.js.org/post/cleanerapptj-1</id>
+        <link href="https://damon233.js.org/post/cleanerapptj-1"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/cleanerapptj-1.png" type="image/png"/>
         <updated>2020-04-15T14:37:15.000Z</updated>
         <content type="html"><![CDATA[<h1>1. CCleaner</h1>
 <blockquote>
@@ -957,13 +944,12 @@ UI 真的，相当好看（对于我的审美）
 顺带一提，我没在打广告哦😛</p>
 ]]></content>
         <published>2020-04-15T14:37:15.000Z</published>
-        <rights>All rights reserved 2020, What_Damon</rights>
     </entry>
     <entry>
         <title type="html"><![CDATA[推荐一下优秀的软件]]></title>
-        <id>https://whatdamon.github.io/post/AppTJ-1</id>
-        <link href="https://whatdamon.github.io/post/AppTJ-1"/>
-        <link rel="enclosure" href="https://whatdamon.github.io/img/AppTJ-1.png" type="image/png"/>
+        <id>https://damon233.js.org/post/AppTJ-1</id>
+        <link href="https://damon233.js.org/post/AppTJ-1"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/AppTJ-1.png" type="image/png"/>
         <updated>2020-04-15T02:03:51.000Z</updated>
         <content type="html"><![CDATA[<blockquote>
 <p>文章在 2026 年进行了时效性更新</p>
@@ -1025,6 +1011,5 @@ UI 真的，相当好看（对于我的审美）
 <p>我只提供官网链接啊~~😜</p>
 ]]></content>
         <published>2020-04-15T02:03:51.000Z</published>
-        <rights>License: cc-by-4.0</rights>
     </entry>
 </feed>
