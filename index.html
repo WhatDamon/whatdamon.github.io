@@ -11,7 +11,7 @@
     <link
       rel="icon"
       type="image/png"
-      href="/assets/favicon-C9cUY0nN.png"
+      href="/assets/favicon-CsqTc-EI.png"
       id="site-favicon"
     />
 
@@ -37,9 +37,41 @@
       }
     </script>
 
-    <script type="module" crossorigin src="/assets/index-C2rBDAPn.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DS1Qht5s.css">
-  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+    <noscript></noscript>
+    <script>
+      // WebP detection — runs before images are loaded
+      window.__webp = false;
+      (function () {
+        var img = new Image();
+        img.onload = function () {
+          window.__webp = img.width === 1;
+        };
+        img.src =
+          "data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA=";
+      })();
+    </script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", async () => {
+          const reg = await navigator.serviceWorker.register("/sw.js", {
+            scope: "/",
+          });
+          reg.update();
+          navigator.serviceWorker.addEventListener("controllerchange", () => {
+            window.location.reload();
+          });
+          // Check for updates when user returns to tab
+          document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) reg.update();
+          });
+          // Periodic check every hour for long-lived tabs
+          setInterval(() => reg.update(), 3600_000);
+        });
+      }
+    </script>
+    <script type="module" crossorigin src="/assets/index-C-9eAzRs.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CqkfQ5Np.css">
+  <link rel="manifest" href="/manifest.webmanifest"></head>
   <body>
     <canvas id="meteor-canvas" role="presentation"></canvas>
 
