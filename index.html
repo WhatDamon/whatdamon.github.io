@@ -58,7 +58,10 @@
           });
           reg.update();
           navigator.serviceWorker.addEventListener("controllerchange", () => {
-            window.location.reload();
+            // Don't reload museum pages — they have their own SPA routing
+            if (!window.location.pathname.startsWith("/museum/")) {
+              window.location.reload();
+            }
           });
           // Check for updates when user returns to tab
           document.addEventListener("visibilitychange", () => {
@@ -69,7 +72,7 @@
         });
       }
     </script>
-    <script type="module" crossorigin src="/assets/index-DmqEZd7U.js"></script>
+    <script type="module" crossorigin src="/assets/index-BJRgpgxF.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-CqkfQ5Np.css">
   <link rel="manifest" href="/manifest.webmanifest"></head>
   <body>
