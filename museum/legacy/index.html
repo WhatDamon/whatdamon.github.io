@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Damon 的软件博物馆 | Legacy</title>
+    <link rel="stylesheet" href="/museum/legacy/style.css" />
+  </head>
+  <body>
+    <div class="window">
+      <div class="title-bar">Damon 的软件博物馆</div>
+      <div class="window-body">
+        <div id="browser-note" class="browser-note"></div>
+        <p>欢迎来到 <strong>Damon 的软件博物馆：Legacy Edition</strong>。</p>
+        <p>
+          这里存放着我整理的复古软件、工具和资料。点击下方展品标题开始参观。
+        </p>
+
+        <marquee>
+          &middot; UNDER CONSTRUCTION &middot; 正在施工 &middot;
+        </marquee>
+
+        <div class="sunken-panel">
+          <p><strong>展品列表</strong></p>
+          
+<div class="article-item"><a href="/museum/legacy/5-appleworks6win.html"><span class="article-title">AppleWorks 6 for Windows</span><br><span class="article-desc">奇奇怪怪的办公套件</span></a></div>
+<div class="article-item"><a href="/museum/legacy/4-rainmeter.html"><span class="article-title">Rainmeter</span><br><span class="article-desc">一个优秀的老牌 Windows 美化工具</span></a></div>
+<div class="article-item"><a href="/museum/legacy/3-netants.html"><span class="article-title">NetAnts 网络蚂蚁</span><br><span class="article-desc">单点多线程下载器之祖</span></a></div>
+<div class="article-item"><a href="/museum/legacy/2-ppt1.0.html"><span class="article-title">Forethought PowerPoint 1.0</span><br><span class="article-desc">文档自此变得灵动直观</span></a></div>
+<div class="article-item"><a href="/museum/legacy/1-flash1.0.html"><span class="article-title">FutureSplash Animator</span><br><span class="article-desc">窄带时代的华丽</span></a></div>
+
+        </div>
+
+        <p style="font-size: 10px; color: #686868; text-align: right">
+          共 5 件展品
+        </p>
+      </div>
+      <div class="statusbar">
+      <span id="legacy-modern-section"><a id="legacy-modern-link" href="/museum/">查看现代版</a> &middot; </span> &copy; 2026 Damon Lu &middot;
+      <a href="https://creativecommons.org/licenses/by/4.0/deed.zh"
+        >CC BY 4.0</a
+      >
+    </div>
+    <script src="/museum/legacy/browser-detect.js"></script>
+    <script>
+(function () {
+  var info = getBrowserInfo();
+  if (!info) return;
+  var el = document.getElementById("browser-note");
+  if (!el) return;
+  el.appendChild(
+    document.createTextNode(
+      info.type === "quirks"
+        ? "你在使用" + info.name + (info.version ? " " + info.version : "") + "？看起来它更适合 Legacy Edition!"
+        : "哇，你居然在使用" + info.name + (info.version ? " " + info.version : "") + "！欢迎来到 Legacy Edition！"
+    )
+  );
+  el.style.display = "block";
+})();
+    </script>
+    <script>
+(function () {
+  var hasESM =
+    "noModule" in document.createElement("script") ||
+    (typeof HTMLScriptElement !== "undefined" &&
+      typeof HTMLScriptElement.supports === "function" &&
+      HTMLScriptElement.supports("module"));
+    if (!hasESM) {
+    var el = document.getElementById("legacy-modern-section");
+    if (el) el.style.display = "none";
+  }
+})();
+    </script>
+  </body>
+</html>

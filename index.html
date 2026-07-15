@@ -13,6 +13,8 @@
       href="/assets/favicon-DzzFlULb.png"
       id="site-favicon"
     />
+    <link rel="preconnect" href="https://v1.hitokoto.cn" />
+    <link rel="dns-prefetch" href="https://v1.hitokoto.cn" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://damon233.js.org" />
     <meta property="og:title" content="What_Damon 的窝" />
@@ -51,8 +53,9 @@
         });
       }
     </script>
-    <script type="module" crossorigin src="/assets/index-BaMhA2-p.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BPJ-F2oy.css">
+    <script type="module" crossorigin src="/assets/index-B3_TZJ39.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-BptWJW4g.css">
   <link rel="manifest" href="/manifest.webmanifest"></head>
   <body>
     <div id="browser-warning" hidden role="alert"></div>
@@ -90,6 +93,26 @@
           : "Chrome, Edge, Firefox, or Safari";
       })();
     </script>
+    <style>
+      /* Reserve space for dynamically injected content to prevent CLS */
+      #site-avatar {
+        display: block;
+        min-width: 72px;
+        min-height: 72px;
+      }
+      .topbar {
+        min-height: 48px;
+      }
+      #page-home header hgroup h1 {
+        min-height: 1.6em;
+      }
+      #site-tagline {
+        min-height: 1.6em;
+      }
+      #links {
+        min-height: 40px;
+      }
+    </style>
     <canvas id="meteor-canvas" role="presentation"></canvas>
     <nav id="topbar" class="topbar">
       <button class="hamburger" id="hamburger" aria-expanded="false">
@@ -103,7 +126,14 @@
     <main id="page-home" class="page">
       <header>
         <hgroup>
-          <img id="site-avatar" src="" alt="" draggable="false" />
+          <img
+            id="site-avatar"
+            src=""
+            alt=""
+            width="72"
+            height="72"
+            draggable="false"
+          />
           <h1></h1>
           <p id="site-tagline"></p>
         </hgroup>

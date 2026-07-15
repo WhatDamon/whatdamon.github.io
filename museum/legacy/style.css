@@ -1,0 +1,155 @@
+/* Museum Legacy — IE5 Compatible Stylesheet */
+body {
+  margin: 0;
+  padding: 20px;
+  background-color: #008080;
+  font-family: 'Times New Roman', Georgia, 'Times', serif;
+  font-size: 14px;
+  color: #222222;
+}
+
+/* Win98-style window frame */
+.window {
+  width: 660px;
+  margin: 40px auto;
+  background-color: #c0c0c0;
+  border: 2px outset #dfdfdf;
+}
+
+.title-bar {
+  background-color: #000080;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 3px 4px;
+  font-family: 'Times New Roman', Georgia, 'Times', serif;
+}
+
+.window-body {
+  padding: 8px 16px 16px;
+  font-size: 11px;
+}
+
+/* Headings */
+h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px 0; }
+h2 { font-size: 15px; font-weight: 700; margin: 16px 0 8px 0; }
+h3 { font-size: 13px; font-weight: 700; margin: 14px 0 6px 0; }
+
+p { margin: 0 0 8px 0; line-height: 1.5; }
+
+/* Links */
+a { color: #0000ff; }
+a:visited { color: #800080; }
+
+/* Code */
+pre {
+  display: block;
+  padding: 10px 8px;
+  margin: 8px 0;
+  background-color: #000000;
+  color: #c0c0c0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+}
+code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  background-color: #dfdfdf;
+  padding: 1px 3px;
+}
+pre code {
+  background-color: transparent;
+  padding: 0;
+  font-size: 13px;
+}
+
+/* Blockquote */
+blockquote {
+  margin: 8px 16px;
+  padding: 8px 12px;
+  background-color: #fafaf9;
+  border: 1px solid #dfdfdf;
+  font-style: italic;
+  color: #686868;
+}
+
+/* Lists */
+ul { margin: 6px 0; padding-left: 24px; list-style-type: disc; }
+ol { margin: 6px 0; padding-left: 28px; }
+li { margin: 2px 0; line-height: 1.5; }
+
+/* Tables */
+table { width: 100%; margin: 8px 0; border-collapse: collapse; }
+table td, table th { padding: 4px 8px; border: 1px solid #808080; }
+table th { font-weight: 700; background-color: #dfdfdf; }
+
+/* Images — width:100% for IE5 compatibility (no max-width support) */
+img { width: 100%; border: none; }
+
+/* Browser note (UA Easter egg) */
+.browser-note {
+  display: none;
+  margin-bottom: 8px;
+  padding: 5px 8px;
+  background-color: #ffffcc;
+  border: 1px solid #808080;
+  font-size: 11px;
+  color: #000000;
+}
+
+/* Marquee — IE5 defaults to inline, force block + constrain width */
+marquee {
+  display: block;
+  width: 100%;
+}
+
+/* Horizontal rule */
+hr { border: none; border-top: 1px solid #808080; margin: 16px 0; }
+
+/* Sunken panel effect (Win98 style) */
+.sunken-panel {
+  border: 2px inset #dfdfdf;
+  background-color: #ffffff;
+  padding: 8px;
+  margin: 8px 0;
+}
+
+/* Article header */
+.article-nav {
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #a0a0a0;
+}
+
+/* Article list */
+.article-item {
+  padding: 4px 8px;
+  border-bottom: 1px solid #a0a0a0;
+}
+.article-item a {
+  text-decoration: none;
+  color: #222222;
+  display: block;
+}
+.article-item a:hover {
+  background-color: #dfdfdf;
+  text-decoration: none;
+}
+.article-title {
+  font-weight: bold;
+}
+.article-desc {
+  font-size: 10px;
+  color: #686868;
+}
+
+/* Footer / Status bar */
+.statusbar {
+  margin-top: 16px;
+  padding: 3px 8px;
+  background-color: #c0c0c0;
+  border: 2px inset #dfdfdf;
+  font-size: 10px;
+  color: #686868;
+  text-align: center;
+}

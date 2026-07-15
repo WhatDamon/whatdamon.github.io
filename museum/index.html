@@ -42,46 +42,36 @@
     <link rel="stylesheet" crossorigin href="/museum/assets/index-BcP5gb7S.css">
   </head>
   <body>
-    <!-- Browser version too low warning -->
-    <div
-      id="browser-warning"
-      hidden
-      role="alert"
-      style="
-        position: fixed;
-        inset: 0;
-        z-index: 99999;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        background: #000;
-        color: #fff;
-        font: 14px/1.6 sans-serif;
-        padding: 2rem;
-        text-align: center;
-      "
-    >
-      <div>
-        <h2 style="margin: 0 0 0.5em; font-size: 1.4em">
-          浏览器版本过低 / Browser too old
-        </h2>
-        <p style="margin: 0 0 1em; color: #999">
-          本站使用了现代 Web 技术，您的浏览器已不再受支持。<br />
-          请升级至最新版 Chrome、Firefox 或 Safari。<br /><br />
-          This site uses modern web technologies. Please upgrade your browser.
-        </p>
-        <div
-          id="browser-warning-detail"
-          style="color: #666; font-size: 0.9em"
-        ></div>
-      </div>
-    </div>
-
     <script>
       (function () {
-        var el = document.getElementById("browser-warning");
-        var detail = document.getElementById("browser-warning-detail");
-        if (!el) return;
+        // Check optout cookie
+        if (document.cookie.indexOf("legacy_optout=1") !== -1) return;
+
+        function redirectToLegacy() {
+          var path = window.location.pathname;
+          // Already on legacy? Don't redirect
+          if (path.indexOf("/museum/legacy/") === 0) return;
+
+          // Normalize trailing slash
+          if (path.length > 1 && path.charAt(path.length - 1) === "/") {
+            path = path.slice(0, -1);
+          }
+
+          // Redirect to the matching legacy article, or index as fallback
+          if (path === "/museum/1-flash1.0") {
+            window.location = "/museum/legacy/1-flash1.0.html";
+          } else if (path === "/museum/2-ppt1.0") {
+            window.location = "/museum/legacy/2-ppt1.0.html";
+          } else if (path === "/museum/3-netants") {
+            window.location = "/museum/legacy/3-netants.html";
+          } else if (path === "/museum/4-rainmeter") {
+            window.location = "/museum/legacy/4-rainmeter.html";
+          } else if (path === "/museum/5-appleworks6win") {
+            window.location = "/museum/legacy/5-appleworks6win.html";
+          } else {
+            window.location = "/museum/legacy/index.html";
+          }
+        }
 
         var hasESM =
           "noModule" in document.createElement("script") ||
@@ -90,11 +80,7 @@
             HTMLScriptElement.supports("module"));
 
         if (!hasESM) {
-          el.hidden = false;
-          el.style.display = "flex";
-          if (detail)
-            detail.textContent =
-              "检测到不支持 ES Modules 的浏览器（如 Internet Explorer）。请升级浏览器。";
+          redirectToLegacy();
           return;
         }
 
@@ -108,16 +94,7 @@
         if (typeof DOMParser === "undefined") missing.push("DOMParser");
 
         if (missing.length > 0) {
-          el.hidden = false;
-          el.style.display = "flex";
-          if (detail) {
-            detail.textContent = "缺少关键 API: " + missing.join(", ");
-            var p = document.createElement("p");
-            p.style.cssText = "margin-top:1em;color:#999";
-            p.textContent =
-              "请升级浏览器至最新版本。Please upgrade your browser.";
-            detail.append(p);
-          }
+          redirectToLegacy();
         }
       })();
     </script>

@@ -1,18 +1,26 @@
 # What_Damon 的窝
 
-> What_Damon 的个人网站，塞满了杂七杂八的东西。
+> A personal blog by Damon Lu (What_Damon), focused on development, tinkering, technology, and random projects.
 
-## About
-
-A personal blog. Content includes, but is not limited to, development, tinkering, technology, rants, and recommendations. 
-
-## Pages
+## Core pages
 
 - [Homepage](https://damon233.js.org/)
 - [About](https://damon233.js.org/about)
+- [Links & Friends](https://damon233.js.org/links)
+- [Downloads](https://damon233.js.org/downloads)
+- [RSS](https://damon233.js.org/rss)
 - [Software Museum](https://damon233.js.org/museum/)
+
+## Projects
+
+- [NeoViolet](https://github.com/AuroraStudio-aurorast/NeoViolet) — Terminal music player
+- [Violet Player](https://github.com/AuroraStudio-aurorast/Violet3) — Lightweight Windows music player
+- [CozyUI Ex](https://github.com/WhatDamon/cozyui-ex) — Unofficial CozyUI+ Minecraft resource pack extension
+- [PerformTracker](https://github.com/WhatDamon/PerformTracker-Mod) — Minecraft performance monitoring mod
 
 ## Optional
 
 - [GitHub](https://github.com/WhatDamon)
 - [Bilibili](https://space.bilibili.com/351191993)
+- [Zhihu](https://www.zhihu.com/people/what-damon)
+- [Email](mailto:whatdamon@damon233.top)
