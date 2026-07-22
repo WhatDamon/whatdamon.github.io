@@ -103,6 +103,17 @@ function getBrowserInfo() {
       name = "Safari";
       ver = "";
     }
+  }
+  // 10. Ladybird
+  else if (/Ladybird\//i.test(ua)) {
+    m = ua.match(/Ladybird\/([\d.]+)/i);
+    if (m) {
+      name = "Ladybird";
+      ver = m[1];
+      type = "quirks-cjk";
+    } else {
+      return null;
+    }
   } else {
     return null;
   }

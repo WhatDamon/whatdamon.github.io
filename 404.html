@@ -18,16 +18,57 @@
   </head>
   <body>
     <script>
-      var p = location.pathname + location.search;
-      if (sessionStorage.getItem("_404g") === p) {
-        sessionStorage.removeItem("_404g");
-        sessionStorage.removeItem("r");
-        location.replace(p.startsWith("/museum/") ? "/museum/" : "/");
-      } else {
-        sessionStorage.setItem("_404g", p);
-        sessionStorage.setItem("r", p);
-        location.replace(p.startsWith("/museum/") ? "/museum/" : "/");
-      }
+      // rafgraph-style redirect — encode SPA paths into query string
+      (function () {
+        var l = window.location;
+        var path = l.pathname;
+        var qs = l.search;
+
+        // Already an encoded rafgraph URL (pathname=/ and search=/path)?
+        // Or museum variant (pathname=/museum/ and search=/slug)?
+        // Skip — don't double-encode.
+        if (
+          qs.length > 1 &&
+          qs.charAt(1) === "/" &&
+          (path === "/" || path === "/museum/" || path === "/museum")
+        )
+          return;
+
+        // Museum sub-project — encode to /museum/?/subpath (museum SPA restore script handles it)
+        if (path.startsWith("/museum/")) {
+          var subPath = path.slice(7); // "/museum/4-rainmeter" → "4-rainmeter"
+          var ms = l.search.replace("?", "&");
+          l.replace(
+            l.protocol +
+              "//" +
+              l.hostname +
+              (l.port ? ":" + l.port : "") +
+              "/museum/?" +
+              subPath +
+              ms +
+              l.hash,
+          );
+          return;
+        }
+        // Exact /museum without trailing slash
+        if (path === "/museum") {
+          l.replace("/museum/");
+          return;
+        }
+
+        // Encode path + query into query string for the SPA to restore
+        var query = l.search.replace("?", "&");
+        l.replace(
+          l.protocol +
+            "//" +
+            l.hostname +
+            (l.port ? ":" + l.port : "") +
+            "/?" +
+            path +
+            query +
+            l.hash,
+        );
+      })();
     </script>
   </body>
 </html>

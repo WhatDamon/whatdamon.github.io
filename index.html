@@ -36,27 +36,31 @@
     </script>
     <noscript></noscript>
     <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", async () => {
-          const reg = await navigator.serviceWorker.register("/sw.js", {
-            scope: "/",
-          });
-          reg.update();
-          navigator.serviceWorker.addEventListener("controllerchange", () => {
-            if (!window.location.pathname.startsWith("/museum/"))
-              window.location.reload();
-          });
-          document.addEventListener("visibilitychange", () => {
-            if (!document.hidden) reg.update();
-          });
-          setInterval(() => reg.update(), 3600_000);
-        });
-      }
+      // rafgraph redirect restore — decode query string back to path
+      // Must run BEFORE the SPA module script
+      (function () {
+        var q = location.search.substring(1);
+        if (q && q.charAt(0) === "/") {
+          var path = q,
+            query = "",
+            hash = location.hash;
+          var ampIndex = q.indexOf("&");
+          if (ampIndex !== -1) {
+            path = q.substring(0, ampIndex);
+            query = q.substring(ampIndex + 1).replace(/~and~/g, "&");
+          }
+          history.replaceState(
+            null,
+            null,
+            path + (query ? "?" + query : "") + hash,
+          );
+        }
+      })();
     </script>
-    <script type="module" crossorigin src="/assets/index-B3_TZJ39.js"></script>
+    <script type="module" crossorigin src="/assets/index-CP_1f7sN.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-QTnfLwEv.js">
     <link rel="stylesheet" crossorigin href="/assets/index-BptWJW4g.css">
-  <link rel="manifest" href="/manifest.webmanifest"></head>
+  </head>
   <body>
     <div id="browser-warning" hidden role="alert"></div>
     <script>

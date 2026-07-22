@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 20px;
   background-color: #008080;
-  font-family: 'Times New Roman', Georgia, 'Times', serif;
+  font-family: 'Times New Roman', Georgia, 'Times', SimSun, NSimSun, MingLiU, serif;
   font-size: 14px;
   color: #222222;
 }
@@ -22,7 +22,7 @@ body {
   font-weight: bold;
   font-size: 12px;
   padding: 3px 4px;
-  font-family: 'Times New Roman', Georgia, 'Times', serif;
+  font-family: 'Times New Roman', Georgia, 'Times', SimSun, NSimSun, MingLiU, serif;
 }
 
 .window-body {
@@ -48,11 +48,11 @@ pre {
   margin: 8px 0;
   background-color: #000000;
   color: #c0c0c0;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Courier New', Courier, SimSun, NSimSun, monospace;
   font-size: 13px;
 }
 code {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Courier New', Courier, SimSun, NSimSun, monospace;
   font-size: 12px;
   background-color: #dfdfdf;
   padding: 1px 3px;

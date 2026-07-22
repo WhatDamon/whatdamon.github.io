@@ -38,19 +38,19 @@
         }
       }
     </script>
-    <script type="module" crossorigin src="/museum/assets/index--iyG7Wzc.js"></script>
-    <link rel="stylesheet" crossorigin href="/museum/assets/index-BcP5gb7S.css">
+    <script type="module" crossorigin src="/museum/assets/index-BGInlrPa.js"></script>
+    <link rel="stylesheet" crossorigin href="/museum/assets/index-Bxn1XZ51.css">
   </head>
   <body>
     <script>
       (function () {
         // Check optout cookie
-        if (document.cookie.indexOf("legacy_optout=1") !== -1) return;
+        if (document.cookie.includes("legacy_optout=1")) return;
 
         function redirectToLegacy() {
           var path = window.location.pathname;
           // Already on legacy? Don't redirect
-          if (path.indexOf("/museum/legacy/") === 0) return;
+          if (path.startsWith("/museum/legacy/")) return;
 
           // Normalize trailing slash
           if (path.length > 1 && path.charAt(path.length - 1) === "/") {
@@ -58,19 +58,15 @@
           }
 
           // Redirect to the matching legacy article, or index as fallback
-          if (path === "/museum/1-flash1.0") {
-            window.location = "/museum/legacy/1-flash1.0.html";
-          } else if (path === "/museum/2-ppt1.0") {
-            window.location = "/museum/legacy/2-ppt1.0.html";
-          } else if (path === "/museum/3-netants") {
-            window.location = "/museum/legacy/3-netants.html";
-          } else if (path === "/museum/4-rainmeter") {
-            window.location = "/museum/legacy/4-rainmeter.html";
-          } else if (path === "/museum/5-appleworks6win") {
-            window.location = "/museum/legacy/5-appleworks6win.html";
-          } else {
-            window.location = "/museum/legacy/index.html";
-          }
+          var redirects = {
+            "/museum/1-flash1.0": "/museum/legacy/1-flash1.0.html",
+            "/museum/2-ppt1.0": "/museum/legacy/2-ppt1.0.html",
+            "/museum/3-netants": "/museum/legacy/3-netants.html",
+            "/museum/4-rainmeter": "/museum/legacy/4-rainmeter.html",
+            "/museum/5-appleworks6win": "/museum/legacy/5-appleworks6win.html",
+          };
+          var target = redirects[path] || "/museum/legacy/index.html";
+          location.assign(target);
         }
 
         var hasESM =
@@ -85,13 +81,11 @@
         }
 
         var missing = [];
-        if (typeof Promise === "undefined") missing.push("Promise");
-        if (typeof fetch === "undefined") missing.push("fetch()");
-        if (typeof Map === "undefined" || typeof Set === "undefined")
-          missing.push("Map/Set");
-        if (typeof MutationObserver === "undefined")
-          missing.push("MutationObserver");
-        if (typeof DOMParser === "undefined") missing.push("DOMParser");
+        if (Promise === undefined) missing.push("Promise");
+        if (fetch === undefined) missing.push("fetch()");
+        if (Map === undefined || Set === undefined) missing.push("Map/Set");
+        if (MutationObserver === undefined) missing.push("MutationObserver");
+        if (DOMParser === undefined) missing.push("DOMParser");
 
         if (missing.length > 0) {
           redirectToLegacy();
@@ -109,6 +103,30 @@
         </div>
         <div class="window-body" id="app"></div>
       </div>
+      <script>
+        // Rafgraph redirect restore — decode query string back to museum path
+        // Must run BEFORE the SPA module script
+        (function () {
+          var q = location.search.slice(1);
+          if (q && q.charAt(0) === "/") {
+            var path = q,
+              query = "",
+              hash = location.hash;
+            var ampIndex = q.indexOf("&");
+            if (ampIndex !== -1) {
+              path = q.slice(0, ampIndex);
+              query = q.slice(ampIndex + 1).replace(/~and~/g, "&");
+            }
+            // Remove leading slash — /museum/ already has it
+            if (path.charAt(0) === "/") path = path.slice(1);
+            history.replaceState(
+              null,
+              null,
+              "/museum/" + path + (query ? "?" + query : "") + hash,
+            );
+          }
+        })();
+      </script>
     </main>
   </body>
 </html>

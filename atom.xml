@@ -2,16 +2,461 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://damon233.js.org</id>
     <title>What_Damon 的窝</title>
-    <updated>2026-07-15T20:15:34.451Z</updated>
+    <updated>2026-07-22T19:01:02.337Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <author>
         <name>What_Damon</name>
-        <uri>https://damon233.js.org</uri>
+        <uri>https://damon233.js.org/</uri>
     </author>
-    <link rel="alternate" href="https://damon233.js.org"/>
+    <link rel="alternate" href="https://damon233.js.org/"/>
     <link rel="self" href="https://damon233.js.org/atom.xml"/>
     <subtitle>What_Damon 的个人博客</subtitle>
     <rights>All rights reserved 2026, What_Damon</rights>
+    <entry>
+        <title type="html"><![CDATA[UTM 下 Alpine aarch64 + Sway 安装指南]]></title>
+        <id>https://damon233.js.org/post/alpineArm64UTM</id>
+        <link href="https://damon233.js.org/post/alpineArm64UTM"/>
+        <link rel="enclosure" href="https://damon233.js.org/img/alpineUTM.png" type="image/png"/>
+        <updated>2026-07-22T05:42:07.000Z</updated>
+        <content type="html"><![CDATA[<h1>序</h1>
+<p>Alpine Linux 是一个非常轻量化的 Linux 发行版。不同于传统发行版，它不使用 systemd、coreutils、glibc，而是使用 OpenRC、BusyBox、musl。好处是轻量，适合厌恶 systemd 的用户；使用 musl 也不必受 glibc 依赖版本问题的折磨。坏处是性能不一定最优，并且会遇到大量传统 Linux 上没有的问题。</p>
+<p>Alpine Linux 总体还是更适合在容器环境下运行，在 UTM 里跑 aarch64 版本再装上 Sway，多多少少会踩一些坑——这就是本指南的意义：让你在安装时少走点弯路。</p>
+<blockquote>
+<p>[!NOTE]
+介于 UTM 本质上是苹果的 Virtualization.framework 和 QEMU 的壳，且本指南使用的后端就是 QEMU，如果你正在使用 QEMU 或 Virt-Manager 等工具安装 aarch64 架构的 Alpine，本文还是有点借鉴意义的
+x86_64，也就是 Intel、AMD CPU 的处理器架构，与 aarch64 不同！如果你使用的是普通的电脑，除非用的是 <code>qemu-system-aarch64</code>，不然不适合你参考</p>
+</blockquote>
+<h2>效果</h2>
+<p><img src="/img/alpine-final.png" alt="效果 1">
+<img src="/img/alpine-final-m3.png" alt="效果 2"></p>
+<blockquote>
+<p>请注意，上图中我还进行了多定制化工作，按照本指南一步步操作下来，最终效果与截图必定不同！
+Sway 最后怎么被你定制，是你的自由，我会在文末提及在后续定制中我还做了什么，提供参考</p>
+</blockquote>
+<h1>主</h1>
+<blockquote>
+<p>[!IMPORTANT]
+本文不能反映最新情况，如果你在安装过程中遇到了本文未提及的问题，请认准 Alpine Linux 的 Wiki：<a href="https://wiki.alpinelinux.org/wiki/Main_Page">https://wiki.alpinelinux.org/wiki/Main_Page</a>
+本指南需要你对 Linux 有基础的使用与折腾能力，这里尽可能讲得细致一些</p>
+</blockquote>
+<h2>准备资源</h2>
+<p>访问 <a href="https://alpinelinux.org/downloads/">Alpine Linux 下载</a>，下载 Virtual 版本的 aarch64 ISO；Standard 版本也能用，但针对虚拟化的优化稍少。</p>
+<p>下载后你会得到一个不到 100MB 的 ISO 镜像——对，它就这么大。代价是很多必备软件都默认不包含，桌面也不例外。</p>
+<h2>创建虚拟机</h2>
+<blockquote>
+<p>[!WARNING]
+以 Apple Silicon Mac 为例，如果你使用的是 iPad、iPhone，甚至 Intel Mac，请勿盲从，按照实际情况选择！</p>
+</blockquote>
+<h3>新建虚拟机</h3>
+<p>在 UTM 下选择“+（新建）”-&gt;“虚拟化”-&gt;“Linux”，随后按以下页面配置：</p>
+<ul>
+<li><strong>硬件</strong>：按设备情况分配内存。Alpine 所需内存很少，仅安装 Sway 及基础软件的话 2GB 打底。不推荐启用 OpenGL 硬件加速。</li>
+<li><strong>Linux</strong>：切勿勾选“使用 Apple 虚拟化”，设置 Alpine 的安装 ISO 后下一步。</li>
+<li><strong>存储空间</strong>：保持默认即可，磁盘占用按实际使用增长；愿意的话设为 8GB 也足够。</li>
+<li><strong>共享目录</strong>：设置你希望共享的目录，当然也可以不管</li>
+<li><strong>总结</strong>：名称自己写一个喜欢的，<strong>勾选“打开虚拟机设置”</strong>，点击完成。</li>
+</ul>
+<h3>添加串口（可选但推荐）</h3>
+<p>Alpine aarch64——至少本指南基于的 3.24 版本——存在 TTY 串扰问题，会影响后续的正常使用。虽然你可以通过快捷键 <kbd>⌃control</kbd>+<kbd>⌥option</kbd>+<kbd>fn</kbd>+<kbd>F2‑6</kbd> 切换 TTY，但我更推荐添加一个串口，还能方便地从宿主机粘贴指令。</p>
+<p>在上一步勾选了“打开虚拟机设置”后，设置窗口会自动弹出。在窗口中点击左下角的 &quot;+&quot; 选择“串行”，保存即可。</p>
+<p><img src="/img/utm_serial_settings.png" alt="串口设备添加"></p>
+<p>至此，虚拟机创建完成。</p>
+<h2>安装系统</h2>
+<p>启动虚拟机，等到 <code>localhost login:</code> 提示出现后，输入 <code>root</code> 登录账号，随后在命令行内输入 <code>setup-alpine</code> 开启安装程序。</p>
+<p><img src="/img/alpine-postinstall.png" alt="setup-alpine"></p>
+<p><code>setup-alpine</code> 会依次询问以下问题，按你的实际情况回答即可：</p>
+<ol>
+<li><strong>Hostname（主机名）</strong>：对于不进入生产流程的虚拟机，直接回车（默认 <code>localhost</code>）或随便输入点英文均可，虚拟机环境影响不大。</li>
+<li><strong>网络接口（Interfaces）</strong>：无脑回车即可，这是设置网络连接。<strong>请注意：安装 Alpine Linux 时必须拥有稳定的网络连接！</strong></li>
+<li><strong>Root 密码（Root password）</strong>：务必输入能记住的密码。root 是 Linux 下拥有最高用户权限的账户，后续流程我们会经常用到它。输入密码时不会显示字符，这是正常现象。如果看到 <code>Bad password</code> 提示，说明密码强度偏低但不影响使用，在 <code>Retype password</code> 中再输入一次确认即可。</li>
+<li><strong>时区（Timezone）</strong>：中国大陆用户一般采用北京时间，设置为 <code>Asia/Shanghai</code>——先输入 <code>Asia</code>，回车，再输入 <code>Shanghai</code>，回车。如果你在新疆地区，则输入 <code>Urumqi</code>，注意大小写敏感！</li>
+<li><strong>代理 / NTP 服务（Proxy / NTP）</strong>：除非你知道自己在做什么，否则直接回车使用默认值即可。</li>
+<li><strong>APK 镜像（APK Mirror）</strong>：APK 是 Alpine 的包管理器，这里选择国内的镜像站。推荐使用清华源：按下 <kbd>S</kbd> + <kbd>⏎Enter</kbd> 进入搜索，在列表中找到 <code>mirrors.tuna.tsinghua.edu.cn</code> 对应的编号（3.24 版本中为 13），按 <kbd>Q</kbd> 退出列表。国内其他高校与公司也部署了相关镜像可供选择。如果你不想手动选，按 <kbd>F</kbd> + <kbd>⏎Enter</kbd> 让安装程序自动挑选即可，只是耗时稍长。</li>
+<li><strong>用户创建（User）</strong>：输入你希望创建的登录用户名（也将用于用户主目录名），回车；接着输入全名（Full Name），直接回车跳过即可。随后设置该用户的密码（同样不回显），输入两次确认。后续的 SSH 配置问题按需回车跳过。</li>
+<li><strong>磁盘与安装（Disk &amp; Install）</strong>：多数情况依次输入 <code>vda</code> → <code>sys</code> → <code>y</code> 即可。<strong>注意：此操作会清空虚拟磁盘内的所有数据，全新安装无需担心。</strong></li>
+</ol>
+<p><img src="/img/alpine-disk.png" alt="磁盘分区安装"></p>
+<p>随后进入分区和安装流程。等待 <code>Installation is complete. Please reboot.</code> 出现后，推出 ISO 镜像并重启虚拟机。如果你能在 Alpine 的登录提示符处停住，并且输入你创建的新账号能够成功登录，说明安装流程已经完成！</p>
+<p><img src="/img/alpine-afterinstall.png" alt="登录"></p>
+<h2>环境配置 &amp; 安装桌面</h2>
+<h3>APK 准备</h3>
+<p>Alpine Linux 缺乏大量传统 Linux 必备软件（例如 <code>vim</code>），而不少软件只能在默认未开启的 <code>community</code> 源中获取，故先对它进行处理。</p>
+<p>如果当前是普通用户，先切换到 root：</p>
+<pre><code class="language-bash">su -
+</code></pre>
+<p>输入以下指令编辑 APK 的软件源列表：</p>
+<pre><code class="language-bash">vi /etc/apk/repositories
+</code></pre>
+<p>打开后找到第三行 community 源（以 <code>#</code> 开头），去掉行首的 <code>#</code>，保存并退出。</p>
+<p><img src="/img/alpine-apk-source.png" alt="APK 源编辑"></p>
+<p>随后执行一遍 <code>apk update</code> 更新源，至此完成 APK 的相关准备。</p>
+<h3>基础应用</h3>
+<p>接下来你可以通过 <code>apk</code> 指令安装一些必备软件，这里提供一部分思路，请在 root 账户下运行：</p>
+<pre><code class="language-bash">apk add vim nano curl wget # 分别安装 vim、nano、curl、wget，按需增减
+</code></pre>
+<p>Alpine 不自带提权执行工具。通用选择是 <code>sudo</code>，更符合 Alpine 哲学的选择是 <code>doas</code>（Wiki 多用它），二选一即可。安装后取消注释对应配置文件中的 <code>wheel</code> 组限制（<code>sudo</code> 用 <code>visudo</code>，<code>doas</code> 编辑 <code>/etc/doas.conf</code>）。</p>
+<p><img src="/img/alpine-doas-config.png" alt="doas 配置"></p>
+<p>另外建议还在 root 下执行以下命令，将新建的普通用户加入 <code>wheel</code> 组：</p>
+<pre><code class="language-bash">adduser &lt;你的用户名&gt; wheel
+</code></pre>
+<h3>准备 Wayland</h3>
+<p>Sway 基于 Wayland 图形协议运行，因此在安装 Sway 之前需要先搭建 Wayland 环境。Alpine 提供了一键安装指令，在 root 下执行即可：</p>
+<pre><code class="language-bash">setup-wayland-base
+</code></pre>
+<p>该脚本会自动安装 Wayland 相关组件、启用必要服务并完成基础配置。</p>
+<p>此外，建议将你的普通用户加入 <code>video</code> 组，以获得访问显卡设备的权限：</p>
+<pre><code class="language-bash">adduser &lt;你的用户名&gt; video
+</code></pre>
+<h3>处理 TTY 串扰</h3>
+<p>为了提升使用体验，也为了方便后续在非串口终端下操作，我们最好手动修复 TTY 串扰问题。Alpine Linux 下 tty0 和 tty1 会共用同一个 VT。</p>
+<p>在串口中以 root 账户执行以下指令：</p>
+<pre><code class="language-bash">vi /etc/inittab
+</code></pre>
+<p>找到 tty1 对应的行，在其开头添加 <code>#</code> 注释掉它：</p>
+<pre><code class="language-diff">- tty1::respawn:/sbin/getty 38400 tty1
++ # tty1::respawn:/sbin/getty 38400 tty1
+</code></pre>
+<p>保存并退出，然后重启系统。</p>
+<h3>安装 Sway VM</h3>
+<p>Alpine 提供了桌面安装工具，帮完成大部分配置。不过请注意：装完不代表重启就能直接进入桌面！</p>
+<p>请在 root 账户下输入以下指令：</p>
+<pre><code class="language-bash">setup-desktop sway
+</code></pre>
+<p>随后执行以下指令设置 seatd，在 root 账户下执行：</p>
+<pre><code class="language-bash">apk add seatd
+apk del elogind # setup-desktop 自动安装，但 Wiki 提及用不到，实际情况的确，且可能会与 seatd 冲突
+adduser &lt;你的用户名&gt; seat
+rc-service seatd start
+rc-update add seatd default
+</code></pre>
+<h3>配置普通用户环境</h3>
+<p>Sway 需要在用户环境中正确设置若干变量才能正常运行。现在切换到普通用户，配置其 <code>.profile</code> 文件。</p>
+<p>如果你当前仍在 root 账户，<strong>先退出回到普通用户</strong>：</p>
+<pre><code class="language-bash">exit # 之前是 su - 切过来的，直接退出
+su - &lt;你的用户名&gt; # 如果直接以 root 登录的，改用这条
+</code></pre>
+<p>然后用文本编辑器编辑家目录下的 <code>.profile</code>：</p>
+<pre><code class="language-bash">vi ~/.profile
+</code></pre>
+<p>一般来说这是新文件，通过串口窗口粘贴以下内容（vi 下按 <kbd>I</kbd> 进入 INSERT 模式）：</p>
+<pre><code class="language-bash">if [ -z &quot;$XDG_RUNTIME_DIR&quot; ]; then
+        export XDG_RUNTIME_DIR=/run/user/$(id -u)
+        if [ ! -d &quot;$XDG_RUNTIME_DIR&quot; ]; then
+                doas mkdir -p &quot;$XDG_RUNTIME_DIR&quot; 2&gt;/dev/null || true
+                doas chown &quot;$(whoami):$(whoami)&quot; &quot;$XDG_RUNTIME_DIR&quot; 2&gt;/dev/null || true
+                chmod 700 &quot;$XDG_RUNTIME_DIR&quot; 2&gt;/dev/null || true
+        fi
+fi
+
+if [ -z &quot;$WLR_RENDERER&quot; ]; then
+        export WLR_RENDERER=pixman
+fi
+
+if [ -z &quot;$WAYLAND_DISPLAY&quot; ] &amp;&amp; [ &quot;$(tty)&quot; = &quot;/dev/tty0&quot; ]; then
+        exec dbus-run-session sway
+fi
+</code></pre>
+<p>保存并退出。然后执行以下指令让配置立即生效：</p>
+<pre><code class="language-bash">source ~/.profile
+</code></pre>
+<blockquote>
+<p>[!NOTE]
+<code>.profile</code> 做了三件事：</p>
+<ol>
+<li>设置 <code>XDG_RUNTIME_DIR</code>（用 <code>doas</code> 创建目录时需输一次密码）;</li>
+<li>强制 <code>pixman</code> 软件渲染（VirtIO 硬件渲染有图形错误）;</li>
+<li>登录 tty0 时自动启动 Sway，其他 tty 需手动执行 <code>dbus-run-session sway</code>。</li>
+</ol>
+</blockquote>
+<p>一般情况下 <code>source</code> 后环境变量即刻生效，不会出现错误提示。</p>
+<p><img src="/img/alpine-sway-desktop.png" alt="生效后进入 Sway"></p>
+<p><img src="/img/alpine-sway-brand.png" alt="Sway 下 Foot 终端发行版信息"></p>
+<h3>安装虚拟机增强工具</h3>
+<p>QEMU Guest Agent 是运行在虚拟机内部的后台服务，有利于虚拟机与虚拟机软件之间的通讯。</p>
+<p>在 root 下执行：</p>
+<pre><code class="language-bash">apk add qemu-guest-agent
+rc-service qemu-guest-agent start
+rc-update add qemu-guest-agent default
+</code></pre>
+<blockquote>
+<p><code>spice-vdagent</code> 不推荐使用——其对 Wayland 的支持较为糟糕。</p>
+</blockquote>
+<p><strong>到这一步，你的安装基本就完成了，恭喜！</strong>
+现在你已经有了一个能开机直接进 Sway 的 Alpine 虚拟机。接下来怎么打扮它——装什么软件、配什么主题、用哪个终端——就是你自己的事了。但如果你不知道后面怎么进一步折腾，我们继续。</p>
+<h2>自定义</h2>
+<h3>软件推荐</h3>
+<p>下面分类列出常用软件，按需选择安装。以下均在 root 账户下执行，如果当前是普通用户记得加 <code>doas</code>。</p>
+<h4>浏览器</h4>
+<pre><code class="language-bash"># Firefox
+apk add firefox
+
+# Chromium
+apk add chromium chromium-lang
+</code></pre>
+<blockquote>
+<p>在 pixman 软件渲染下，启动 Firefox 时建议加上 <code>MOZ_ENABLE_WAYLAND=1 firefox</code>，以获得更好的渲染效果。</p>
+</blockquote>
+<h4>文件管理器</h4>
+<pre><code class="language-bash"># Thunar —— Xfce 的文件管理器，轻量
+apk add thunar thunar-lang
+
+# PCManFM —— 同样轻量的选择
+apk add pcmanfm
+
+# Nautilus —— GNOME 文件管理器，功能最全但较重
+apk add nautilus
+
+# yazi —— TUI 文件管理器
+apk add yazi
+</code></pre>
+<h4>终端模拟器</h4>
+<p><code>setup-desktop sway</code> 已默认安装了 <code>foot</code>，如果你需要其他选择：</p>
+<pre><code class="language-bash"># Alacritty —— 轻量 GPU 加速终端
+apk add alacritty
+
+# Kitty —— 功能丰富的 GPU 加速终端
+apk add kitty
+
+# Ghostty —— 优秀的 GPU 加速终端
+apk add ghostty
+
+# Sakura —— 轻量 GTK 终端
+apk add sakura
+</code></pre>
+<p>安装后记得修改 Sway 配置来指向你选择的终端。</p>
+<h4>应用启动器与面板</h4>
+<pre><code class="language-bash"># rofi —— 应用启动器（可替代 wmenu）
+apk add rofi-x11-wayland
+
+# waybar —— 高度可定制的 Wayland 状态栏（可替代 swaybar）
+apk add waybar
+
+# mako —— 轻量通知守护进程
+apk add mako
+</code></pre>
+<h4>实用工具</h4>
+<pre><code class="language-bash"># 截图
+apk add grim slurp # grim：截屏，slurp：区域选择
+apk add wl-clipboard # Wayland 剪贴板工具（wl-copy / wl-paste）
+
+# 图片查看
+apk add imv # 轻量 Wayland 原生图片查看器
+
+# 媒体播放
+apk add mpv # 终端播放器，Wayland 下表现良好
+
+# 压缩/解压
+apk add unzip zip tar xz zstd
+
+# 系统监控
+apk add htop btop # htop 经典，btop 图形化更丰富
+
+# 网络工具
+apk add iwd # iNet Wireless Daemon，无线网络管理
+apk add networkmanager # 图形化网络管理
+</code></pre>
+<p>以上软件均可自由组合，不必全部安装。Alpine 的 aarch64 仓库覆盖了大部分日常应用，遇到找不到的包可以先去 <a href="https://pkgs.alpinelinux.org/">pkgs.alpinelinux.org</a> 搜索确认。</p>
+<h3>中文环境</h3>
+<h4>字体与 locale</h4>
+<p>安装中文字体：</p>
+<pre><code class="language-bash">doas apk add font-noto-cjk
+</code></pre>
+<p>安装 musl 的 locale 数据包：</p>
+<pre><code class="language-bash">doas apk add musl-locales
+</code></pre>
+<p>检查当前可用的 locale：</p>
+<pre><code class="language-bash">locale -a
+</code></pre>
+<blockquote>
+<p>如果 <code>locale -a</code> 中不包含 <code>zh_CN</code>，不必强求——musl 会安静地回退到 C/POSIX 行为，不影响功能。</p>
+</blockquote>
+<h4>输入法</h4>
+<p>安装 fcitx5：</p>
+<pre><code class="language-bash">doas apk add fcitx5 fcitx5-configtool fcitx5-qt fcitx5-gtk
+</code></pre>
+<p>回到 <code>~/.profile</code>，在 Sway 启动块之前加入 locale 与 fcitx5 环境变量：</p>
+<pre><code class="language-bash"># 中文 locale
+export LANG=zh_CN.UTF-8
+export LC_ALL=zh_CN.UTF-8
+
+# fcitx5 输入法
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+export SDL_IM_MODULE=fcitx
+export GFLW_IM_MODULE=fcitx
+</code></pre>
+<blockquote>
+<p>如果希望串口保持英文、仅 Sway 使用中文，将 locale 变量放到 Sway 启动块内部，开头加 <code>export LANG=C.UTF-8</code> 作为全局默认。</p>
+</blockquote>
+<p>最后在 <code>~/.config/sway/config</code> 末尾添加 fcitx5 自启动：</p>
+<pre><code>exec --no-startup-id fcitx5 -d
+</code></pre>
+<blockquote>
+<p>首次编辑 Sway 配置建议先复制默认配置：<code>cp /etc/sway/config ~/.config/sway/config</code></p>
+</blockquote>
+<p>重载 Sway 后 fcitx5 会自动启动。运行 <code>fcitx5-configtool</code> 添加你需要的输入法（如拼音、双拼、五笔等）。</p>
+<p><img src="/img/alpine-ime.png" alt="设置 Fcitx5"></p>
+<h3>优化 VT 显示</h3>
+<p>Alpine 的 VT 默认关闭了 Unicode 支持，且 VT 字体在高分屏下偏小。开启 Unicode 并换用大字体后，VT 的显示会更舒适。</p>
+<h4>开启 Unicode</h4>
+<pre><code class="language-bash">doas sed -i &#39;s/^# *unicode=.*/&amp;\nunicode=&quot;YES&quot;/&#39; /etc/rc.conf
+</code></pre>
+<h4>调整 VT 字体</h4>
+<blockquote>
+<p>如果你使用了 <code>kmscon</code> 等取代默认的 VT，这部分可能不适合你！</p>
+</blockquote>
+<p>安装 Terminus 字体包：</p>
+<pre><code class="language-bash">doas apk add terminus-font
+</code></pre>
+<p>编辑控制台字体配置：</p>
+<pre><code class="language-bash">doas vi /etc/conf.d/consolefont
+</code></pre>
+<p>写入以下内容：</p>
+<pre><code>consolefont=&quot;ter-132n.psf.gz&quot;
+</code></pre>
+<p>然后启用 consolefont 服务：</p>
+<pre><code class="language-bash">doas rc-update add consolefont boot
+</code></pre>
+<p>重启后生效。<code>ter-132n</code> 是 Terminus 字体的大号版本，你也可尝试其他尺寸，如 <code>ter-116b</code>（加粗）或 <code>ter-132b</code> 等。</p>
+<p><img src="/img/alpine-vtfont.png" alt="更换后效果，左改，右原"></p>
+<h3>音频</h3>
+<blockquote>
+<p>这里采用 PulseAudio，如果愿意，PipeWire 也行</p>
+</blockquote>
+<h4>安装与服务</h4>
+<pre><code class="language-bash">apk add pulseaudio pulseaudio-utils alsa-utils
+addgroup &lt;你的用户名&gt; audio
+rc-service alsa start
+rc-update add alsa default
+rc-service alsa save
+</code></pre>
+<p>随后处理静音——以普通用户运行 <code>alsamixer</code>，找到 <code>Master</code> 和 <code>PCM</code>，如果下方显示 <code>MM</code>（静音），按 <code>M</code> 键切换为 <code>00</code>（开启），<kbd>Esc</kbd> 退出。</p>
+<p>如需图形化控制音频，可额外安装 <code>pavucontrol</code>。</p>
+<h4>在 Sway 中启用</h4>
+<p>在 <code>~/.config/sway/config</code> 末尾添加：</p>
+<pre><code>exec --no-startup-id pulseaudio --start --exit-idle-time=-1
+</code></pre>
+<h3>文件传输</h3>
+<p>宿主机与虚拟机之间传文件，目前有以下方式：</p>
+<p><strong>VirtFS</strong>：</p>
+<p>在 UTM 的共享目录设置中添加共享后，将“目录共享模式”设置为“VirtFS”，虚拟机内手动挂载，请在终端输入：</p>
+<pre><code class="language-bash">doas mkdir -p /mnt/shared
+doas mount -t 9p share /mnt/shared -o trans=virtio,version=9p2000.L
+</code></pre>
+<p>若要卸载则输入 <code>doas umount /mnt/shared</code> 即可。请注意，<code>/mnt/shared</code> 需要 root 权限才能读写！</p>
+<p>如需开机自动挂载，将 mount 命令写入 <code>/etc/fstab</code>。</p>
+<p><strong>SCP / SFTP</strong>：</p>
+<p>这两玩意均依赖 SSH，一般来说当你知道虚拟机的 Guest IP，即可访问！</p>
+<p>获取 IPv4 地址，请在终端输入：</p>
+<pre><code class="language-bash">ip -4 addr
+</code></pre>
+<p>然后使用你习惯的工具，例如 FileZilla 访问即可。</p>
+<p><img src="/img/alpine-sftp.png" alt="SFTP 登录后"></p>
+<blockquote>
+<p>请注意，请务必指明协议为 SCP 或 SFTP（即 <code>scp://</code> 或 <code>sftp://</code> 开头），用户名为你的登录用用户名，密码为你的登录密码，如果你修改了端口，也请务必指定！</p>
+</blockquote>
+<h3>进一步自定义</h3>
+<p>Sway 生态的组件几乎都是配置驱动的，下面直接给出官方文档与社区资源的入口。</p>
+<h4>官方资源</h4>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>说明</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Sway</strong></td>
+<td>合成器本体，配置参考 <code>man 5 sway</code></td>
+<td><a href="https://swaywm.org/">swaywm.org</a></td>
+</tr>
+<tr>
+<td><strong>Waybar</strong></td>
+<td>状态栏，配置用 JSON + CSS</td>
+<td><a href="https://github.com/Alexays/Waybar/wiki/Configuration">GitHub Wiki</a></td>
+</tr>
+<tr>
+<td><strong>Rofi</strong></td>
+<td>应用启动器</td>
+<td><a href="https://github.com/davatorium/rofi">GitHub</a></td>
+</tr>
+<tr>
+<td><strong>Alpine Wiki - Sway</strong></td>
+<td>Alpine 下的 Sway 指南</td>
+<td><a href="https://wiki.alpinelinux.org/wiki/Sway">wiki.alpinelinux.org</a></td>
+</tr>
+</tbody></table>
+<h4>社区参考</h4>
+<ul>
+<li><strong>GitHub 搜索 <code>sway dotfiles</code></strong>：<a href="https://github.com/search?q=sway+dotfiles">快速跳转</a>——数千份公开配置可直接借鉴</li>
+<li><strong>Alpine Linux 社区</strong>：在<a href="https://alpinelinux.org/community/">官方社区</a>指向的地方掘宝</li>
+</ul>
+<h4>快速上手建议</h4>
+<ol>
+<li><strong>从默认配置开始</strong>：<code>cp /etc/sway/config ~/.config/sway/config</code>，逐行读注释，边读边改</li>
+<li><strong>改一样、观察一样</strong>：不要一次性贴大段网上的配置，逐个选项调整才能理解每行的作用</li>
+<li><strong>盯住 Sway 的 man 页</strong>：<code>man 5 sway</code> 是最完整准确的参考，遇到配置项不生效时优先查它（需要安装 <code>macdoc</code> 和 <code>sway-doc</code>）</li>
+</ol>
+<p>另外一说，如果你选择了 zsh，<a href="https://ohmyz.sh/">Oh My Zsh</a> 也是高质量配置起点，安装后可从数千款主题和插件中选择。具体配置注意事项见下方 FAQ“如何更换 Shell？”。</p>
+<p><img src="/img/alpine-custom.png" alt="指引"></p>
+<h2>FAQ</h2>
+<h3>VirtIO GPU 到底有什么问题？</h3>
+<p>简单说：在选择硬件加速，VirtIO GPU 的 3D 加速会导致画面撕裂、花屏、窗口内容不刷新等图形异常。这短期内无解。</p>
+<p>因此本文全程使用 <code>pixman</code> 软件渲染——没有硬件加速，但胜在稳定。日常浏览网页、写代码、看文档完全够用，只是视频播放和图形密集操作会感觉吃力，但你选择玩虚拟机应该也没想过干这些事吧。</p>
+<p><img src="/img/alpine-virt-gpu-crash.png" alt="VirtIO GPU 硬件加速"></p>
+<h3>如何更换 Shell？</h3>
+<p>Alpine 默认使用 BusyBox 自带的 <code>sh</code>，如果你更喜欢 bash、zsh 或 fish：</p>
+<pre><code class="language-bash">doas apk add bash zsh fish
+</code></pre>
+<p>然后使用 <code>chsh</code> 切换：</p>
+<pre><code class="language-bash">chsh -s /bin/bash # 切换到 bash
+chsh -s /bin/zsh # 切换到 zsh
+# 重新登录后生效
+</code></pre>
+<blockquote>
+<p>注意：更换 Shell 后，<code>.profile</code> 不一定会被自动读取。请将之前配置的环境变量迁移到对应的文件，或设置在全局 <code>/etc/profile</code> 中。
+当然对于 bash，应该没啥事；zsh，你可以在 <code>.zprofile</code> 中写入 <code>emulate sh -c &#39;source ~/.profile&#39;</code> 解决；fish 暂不清楚。</p>
+</blockquote>
+<h3>如何安装登录管理器？</h3>
+<p>本指南直接使用 <code>.profile</code> 自动启动 Sway，不依赖登录管理器。如果你偏好图形化登录界面，或者说厌烦输两次密码，SDDM 是与 Sway 兼容性较好的选择</p>
+<p>具体安装流程不提供，因为我也没安装成功</p>
+<p>安装后<strong>从 <code>.profile</code> 中删除或注释掉 Sway 的自启动行</strong>，避免 <code>sddm</code> 与 <code>exec dbus-run-session sway</code> 冲突。</p>
+<h3>elogind 和 seatd 到底用哪个？</h3>
+<ul>
+<li><strong>seatd</strong>：轻量，设计简洁，本文选择了它，Wiki 也说明它有用，elogind 没用</li>
+</ul>
+<p>检查当前运行状态：</p>
+<pre><code class="language-bash">rc-service seatd status
+rc-service elogind status
+</code></pre>
+<p>如果两个都在运行，停掉 elogind。本文在 seatd 安装后执行了 <code>apk del elogind</code> 来彻底移除。</p>
+<h3>如何手动启动 Sway？</h3>
+<p>如果 Sway 没有自动启动，以普通用户登录后执行：</p>
+<pre><code class="language-bash">dbus-run-session sway
+</code></pre>
+<blockquote>
+<p>前提是 <code>XDG_RUNTIME_DIR</code> 已设置，否则 Sway 会报错退出。如果还没配置 <code>.profile</code>，请先完成「配置普通用户环境」步骤。</p>
+</blockquote>
+<h3>TTY 串扰具体是什么表现？</h3>
+<p>Alpine aarch64 的 3.24 版本中，tty0 和 tty1 被映射到了同一个 VT 中。在两者间切换时会看到同一个会话——你在一个终端输入的内容会出现在另一个终端上。这会严重影响内容输入输出体验。</p>
+<h3>Sway 的部分快捷键与 macOS 冲突怎么办？</h3>
+<p>Sway 的默认修饰键是 <code>Mod4</code>（Super 键，对应 macOS 的 Command 键）。在 Mac 上这意味着 <code>Mod4+Q</code> 关闭窗口会与 macOS 的退出应用冲突，<code>Mod4+Shift+Q</code> 退出 sway 同理。此外还有很多快捷键都会与 macOS 本身的快捷键冲突。</p>
+<p>解决办法是<strong>将 Sway 的修饰键改为 <code>Mod1</code>（即 Option 键）</strong>。在 <code>~/.config/sway/config</code> 中将以下行：</p>
+<pre><code>set $mod Mod4
+</code></pre>
+<p>改为：</p>
+<pre><code>set $mod Mod1
+</code></pre>
+<p>重载 Sway 配置后生效（<code>$mod+Shift+C</code> 或重启 Sway）。这样大部分快捷键（如 <kbd>⌥option</kbd> + <kbd>⏎Enter</kbd> 打开终端、<kbd>⌥option</kbd> + <kbd>D</kbd> 启动应用）多数情况不再与 macOS 系统快捷键冲突。</p>
+<h1>结</h1>
+<p>玩得愉快~~~</p>
+<p>最开始想试试 Niri 的，折腾了很久也没啥成果，放弃转而研究 Sway。</p>
+<p>这篇文章 AI 代写了很多，但也没办法，毕竟上面整个文章可是折腾了一整天不断试错的成果捏~（累</p>
+<p><em>附：我自己乱配的 dotfile：<a href="https://github.com/WhatDamon/dotfiles">https://github.com/WhatDamon/dotfiles</a></em></p>
+]]></content>
+        <published>2026-07-22T05:42:07.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[macOS 虚拟机跨软件迁移指南]]></title>
         <id>https://damon233.js.org/post/osxVmMigrate</id>
