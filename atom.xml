@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://damon233.js.org</id>
     <title>What_Damon 的窝</title>
-    <updated>2026-07-22T19:01:02.337Z</updated>
+    <updated>2026-08-23T12:59:47.985Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <author>
         <name>What_Damon</name>
@@ -235,7 +235,10 @@ apk add waybar
 apk add mako
 </code></pre>
 <h4>实用工具</h4>
-<pre><code class="language-bash"># 截图
+<pre><code class="language-bash"># 系统信息显示
+apk add fastfetch # 更现代、可自定义的 fetch
+
+# 截图
 apk add grim slurp # grim：截屏，slurp：区域选择
 apk add wl-clipboard # Wayland 剪贴板工具（wl-copy / wl-paste）
 
@@ -296,6 +299,9 @@ export GFLW_IM_MODULE=fcitx
 </blockquote>
 <p>重载 Sway 后 fcitx5 会自动启动。运行 <code>fcitx5-configtool</code> 添加你需要的输入法（如拼音、双拼、五笔等）。</p>
 <p><img src="/img/alpine-ime.png" alt="设置 Fcitx5"></p>
+<blockquote>
+<p>如果你愿意的话，ibus + libpinyin 这个组合也未尝不可。fcitx 和 ibus 均可搭配 Rime 使用获取更好的中文输入体验。</p>
+</blockquote>
 <h3>优化 VT 显示</h3>
 <p>Alpine 的 VT 默认关闭了 Unicode 支持，且 VT 字体在高分屏下偏小。开启 Unicode 并换用大字体后，VT 的显示会更舒适。</p>
 <h4>开启 Unicode</h4>
@@ -389,7 +395,7 @@ doas mount -t 9p share /mnt/shared -o trans=virtio,version=9p2000.L
 </tbody></table>
 <h4>社区参考</h4>
 <ul>
-<li><strong>GitHub 搜索 <code>sway dotfiles</code></strong>：<a href="https://github.com/search?q=sway+dotfiles">快速跳转</a>——数千份公开配置可直接借鉴</li>
+<li><strong>GitHub 搜索 <code>sway dotfiles</code></strong>：<a href="https://github.com/search?q=sway+dotfiles">快速跳转</a>——数千份公开配置可直接借鉴（直接搜索 <code>dotfiles</code> 选择更多，但也更乱）</li>
 <li><strong>Alpine Linux 社区</strong>：在<a href="https://alpinelinux.org/community/">官方社区</a>指向的地方掘宝</li>
 </ul>
 <h4>快速上手建议</h4>
@@ -398,8 +404,9 @@ doas mount -t 9p share /mnt/shared -o trans=virtio,version=9p2000.L
 <li><strong>改一样、观察一样</strong>：不要一次性贴大段网上的配置，逐个选项调整才能理解每行的作用</li>
 <li><strong>盯住 Sway 的 man 页</strong>：<code>man 5 sway</code> 是最完整准确的参考，遇到配置项不生效时优先查它（需要安装 <code>macdoc</code> 和 <code>sway-doc</code>）</li>
 </ol>
-<p>另外一说，如果你选择了 zsh，<a href="https://ohmyz.sh/">Oh My Zsh</a> 也是高质量配置起点，安装后可从数千款主题和插件中选择。具体配置注意事项见下方 FAQ“如何更换 Shell？”。</p>
+<p>另外一说，如果你选择了 zsh，<a href="https://ohmyz.sh/">Oh My Zsh</a> 是高质量自定义配置起点，安装后可从数千款主题和插件中选择。具体配置注意事项见下方 FAQ“如何更换 Shell？”。</p>
 <p><img src="/img/alpine-custom.png" alt="指引"></p>
+<p>还有像 SwayLock、Grub 这些也可以自定义：这是你的自由发挥时间！但是请做好备份防止搞坏系统，搞来搞去被迫重装。</p>
 <h2>FAQ</h2>
 <h3>VirtIO GPU 到底有什么问题？</h3>
 <p>简单说：在选择硬件加速，VirtIO GPU 的 3D 加速会导致画面撕裂、花屏、窗口内容不刷新等图形异常。这短期内无解。</p>
@@ -419,9 +426,10 @@ chsh -s /bin/zsh # 切换到 zsh
 当然对于 bash，应该没啥事；zsh，你可以在 <code>.zprofile</code> 中写入 <code>emulate sh -c &#39;source ~/.profile&#39;</code> 解决；fish 暂不清楚。</p>
 </blockquote>
 <h3>如何安装登录管理器？</h3>
-<p>本指南直接使用 <code>.profile</code> 自动启动 Sway，不依赖登录管理器。如果你偏好图形化登录界面，或者说厌烦输两次密码，SDDM 是与 Sway 兼容性较好的选择</p>
-<p>具体安装流程不提供，因为我也没安装成功</p>
+<p>本指南直接使用 <code>.profile</code> 自动启动 Sway，不依赖登录管理器。如果你偏好图形化登录界面，或者说厌烦输两次密码，SDDM 是与 Sway 兼容性较好的选择。</p>
+<p>具体安装流程不提供，因为我也没安装成功。</p>
 <p>安装后<strong>从 <code>.profile</code> 中删除或注释掉 Sway 的自启动行</strong>，避免 <code>sddm</code> 与 <code>exec dbus-run-session sway</code> 冲突。</p>
+<p>如果你希望轻量化，Ly 也未尝不可，但是一方面这要在 <code>edge</code> 分支的 <code>testing</code> 仓库获取（截止发文），另一方面，你可能还要被 TTY 串扰折磨。</p>
 <h3>elogind 和 seatd 到底用哪个？</h3>
 <ul>
 <li><strong>seatd</strong>：轻量，设计简洁，本文选择了它，Wiki 也说明它有用，elogind 没用</li>
@@ -938,6 +946,10 @@ Pi 是这样一款智能体，它毫无疑问是我最喜欢的用于 DevOps、�
 <blockquote>
 <p>正式版很早就已经发布，大伙儿看一乐就行</p>
 </blockquote>
+<blockquote>
+<p>[!CAUTION]
+如果你是企业用户，不推荐使用 VirtualBox 7.1+，更别结合拓展包！神必甲骨文的更新的相关许可证，不管是否评估都可以向你索要商业授权费！看看远处的 QEMU/KVM 吧...</p>
+</blockquote>
 <p>估计很多人都没意识到 VBox 悄悄更新了这个新测试版本，它在主页新闻中只字未提。</p>
 <p>不管这么多，先看看这是什么玩意！</p>
 <h1>主</h1>
@@ -1371,7 +1383,7 @@ UI 真的，相当好看（对于我的审美）
         <updated>2020-04-15T14:37:15.000Z</updated>
         <content type="html"><![CDATA[<h1>1. CCleaner</h1>
 <blockquote>
-<p>2026 年更新：此软件不再推荐</p>
+<p>2026 年更新：此软件不再推荐，建议看看 <a href="https://github.com/MoscaDotTo/Winapp2">CCleaner 使用的数据库</a>下有什么选择</p>
 </blockquote>
 <p>不用我多说，它可以清理跟踪器、注册表、缓存文件等等等等，还可以自定义选择，当然，它还可以完全卸载顽固软件，升级国外的软件
 当然问题很明显，不付费很多功能没法用，但基本上够用了，如果使用了 Professional 版，关闭浏览器会弹出一个很烦人的小窗口，如果你使用断网破解方式，等个几天，会是不是弹出许可证到期通知，但事实上并非如此，另外清理一次产生缓存也有 500MB。。。
