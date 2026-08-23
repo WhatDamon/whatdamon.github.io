@@ -49,6 +49,13 @@
             path = q.substring(0, ampIndex);
             query = q.substring(ampIndex + 1).replace(/~and~/g, "&");
           }
+          // Normalize before restoring: collapse duplicate slashes and strip
+          // trailing slash (root stays "/"). Also guards history.replaceState
+          // against invalid URLs like "//" (empty authority → TypeError).
+          path = path.replace(/\/{2,}/g, "/");
+          if (path.length > 1 && path.charAt(path.length - 1) === "/") {
+            path = path.slice(0, -1);
+          }
           history.replaceState(
             null,
             null,
@@ -57,7 +64,7 @@
         }
       })();
     </script>
-    <script type="module" crossorigin src="/assets/index-bYM-uhpL.js"></script>
+    <script type="module" crossorigin src="/assets/index-DqNue3hu.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-QTnfLwEv.js">
     <link rel="stylesheet" crossorigin href="/assets/index-e1p-xHSz.css">
   </head>
